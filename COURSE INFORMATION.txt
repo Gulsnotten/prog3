@@ -1,0 +1,21 @@
+COURSE INFORMATION
+
+Jerry will do an engine.
+We are allowed to use our own engines.
+
+report
+	result
+	analysis
+	conclusion
+
+	* not a pm, just a brief report
+	* ex. I made the function static becuase it doesn't use any member data
+	* standard is 4 pages, 2500 words
+	* pdf
+	* my name
+	* the report has no pass with distinction
+
+
+the blog is not required to get pass with distinction
+the blog can give you 5 points
+the cap is 30 points
