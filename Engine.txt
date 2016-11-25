@@ -1,0 +1,40 @@
+Engine
+	* holds all managers
+		Draw
+		Sprite
+		State
+		Input
+
+never change
+	stdafx
+	targetver
+
+	* these are generated when creating a "precompiled headers" -project
+
+DELTA TIME
+
+
+
+
+// doot doot nice info
+
+do not forward declare in .cpp (?)
+
+never put standard values in .h files, it just declares the interface. it doesn't actually set the values for new objects
+
+forward declaration works for pointers and references, when we dont need the functionality
+
+task list visar alla kommentarer med "todo"
+
+patterns
+	wrapper
+	adapter
+	facad
+
+
+way of working:
+	starting at the base, the highest starting point
+
+	declaring uses and expectations of interfaces
+
+	providing definitions for classes -> subclasses
