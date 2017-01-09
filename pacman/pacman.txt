@@ -1,0 +1,61 @@
+PACMAN
+
+går alltid 1 steg i taget
+
+kan inte stanna mitt i ett steg (aka kan inte stå stilla på en .5 position)
+
+går inte automatiskt när den kolliderar med vägg
+
+man kan buffra inputten eftersom den kommer gå 1 helt steg
+
+	möjligtvis skulle man kunna cancela ett steg genom att gå motsatta hållet
+
+
+
+
+AKA
+
+pacman
+	* går alltid åt hållet han tittar åt
+	* stannar om han försöker gå in i en vägg
+	* kan bara ändra riktning
+		* mellan steg
+		* eller till motsatt riktning
+
+ghosts
+	red
+		CHASER
+		chases pacman
+	pink
+		AMBUSHER
+		in front of pacman
+	blue
+		FICKLE
+			Sometimes he chases Pac-Man aggressively like Blinky
+			other times he jumps ahead of Pac-Man as Pinky would.
+			He might even wander off like Clyde on occasion.
+		aka:
+		switches between the others AI behaviour
+	orange
+		FEIGNED IGNORANCE
+		Although he claimed that the orange enemy's behavior is random,
+		the game's code reveals that it actually
+			chases Pac-Man most of the time,
+			but also moves toward the lower-left corner of the maze when it gets too close to Pac-Man.
+		alternativt:
+			väljer en random riktning vid intersections (förutom den han kom ifrån)
+
+
+
+
+
+TILES
+	walls
+	pellets
+	big pellets
+
+GAMEOBJECTS
+	pacman
+	ghosts
+	fruits
+		are not tiles because their sprite is bigger than 8x8

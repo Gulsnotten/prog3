@@ -2,20 +2,19 @@
 #include "Sprite.h"
 
 
-Sprite::Sprite() : m_texture(nullptr)
+Sprite::Sprite() // Private
 {
-}
+};
 
-
-Sprite::Sprite(SDL_Texture * p_texture, int p_x, int p_y, int p_w, int p_h) 
+Sprite::Sprite(SDL_Texture* p_texture, int p_x, int p_y, int p_w, int p_h)
 {
 	m_texture = p_texture;
 	SetSource(p_x, p_y, p_w, p_h);
-}
+};
 
 Sprite::~Sprite()
 {
-}
+};
 
 void Sprite::SetSource(int p_x, int p_y, int p_w, int p_h)
 {
@@ -23,4 +22,28 @@ void Sprite::SetSource(int p_x, int p_y, int p_w, int p_h)
 	m_source.y = p_y;
 	m_source.w = p_w;
 	m_source.h = p_h;
+}
+SDL_Rect Sprite::GetSource()
+{
+	return m_source;
+}
+SDL_Texture * Sprite::GetTexture()
+{
+	return m_texture;
+}
+bool Sprite::operator==(const Sprite & p_other)
+{
+	bool same_source = 
+		m_source.h == p_other.m_source.h &&
+		m_source.w == p_other.m_source.w &&
+		m_source.x == p_other.m_source.x &&
+		m_source.y == p_other.m_source.y;
+
+	bool same_texture = m_texture == p_other.m_texture;
+
+	return same_source && same_texture;
+}
+bool Sprite::operator!=(const Sprite & p_other)
+{
+	return !(*this == p_other);
 }

@@ -1,0 +1,26 @@
+programming diary #1
+
+
+
+	Animations
+
+AnimationController
+Animation
+	AnimationFrame
+
+Hardcoded Animations instead of loading through .xml. reason: faster than implementing .xml
+
+
+	USING ANIMATIONS
+
+had to change a bunch of stuff when implementing animations. First I wanted the states to have control of the animations.
+
+I created a struct called GameObjectData which each GameObject has, and most of the states have a pointer to this data. I put a pointer to an object of AnimationController in it so the states could access it. Earlier I was passing around a pointer to the position of the parent, so I put that in the struct too.
+
+but I changed my mind when thinking of how to access the animations in each state. some states use the same animations so it would be a waste to create them in each state and get duplicates. My second idea was to create an object with all the animations for one object, and put it on the ServiceLocator. It can be accessed anywhere, so the states could get the animations. but it didn't make sense to manually get the pointer through the servicelocator on every state.
+
+the reason why I wanted to do this was that not all states have a MovementModule, and direction is a member of MovemeModule. the owner of the states couldn't access it.
+
+When I realized I wanted the state machine to control the animations I put the MovementModule in the GameObjectData struct. This way all the states that had one could use the same one, and the state machine could get the direction information for animations!
+
+Now that the states don't need access to the AnimationController I should have it as a member of GameObject instead.

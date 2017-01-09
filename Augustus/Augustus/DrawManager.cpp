@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "DrawManager.h"
-
+#include "Sprite.h"
 
 DrawManager::DrawManager()
 {
 }
-
 
 DrawManager::~DrawManager()
 {
@@ -13,12 +12,12 @@ DrawManager::~DrawManager()
 
 void DrawManager::Initialize()
 {
-	m_window = SDL_CreateWindow("Augustus", SDL_WINDOWPOS_CENTERED,
-							SDL_WINDOWPOS_CENTERED, 640, 480, 0);
-	assert(m_window != nullptr);
+	m_window = SDL_CreateWindow("Augustus", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 224, 288, 0);
+	assert(m_window != nullptr && "SDL_CreateWindow Failed");
 
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_VIDEO_OPENGL);
-	assert(m_renderer != nullptr);
+	assert(m_renderer != nullptr && "SDL_CreateRenderer Failed");
+
 }
 
 void DrawManager::Shutdown()
@@ -39,19 +38,47 @@ void DrawManager::SetDrawColor(Uint8 p_r, Uint8 p_g, Uint8 p_b, Uint8 p_a)
 {
 	SDL_SetRenderDrawColor(m_renderer, p_r, p_g, p_b, p_a);
 }
-
 void DrawManager::Present()
 {
 	SDL_RenderPresent(m_renderer);
 }
 
-void DrawManager::Draw(Sprite & p_sprite, int p_x, int p_y)
+void DrawManager::Draw(Sprite* p_sprite, int p_x, int p_y)
 {
-	// TODO: will use sprite and sprites txture + rect to draw
+	SDL_Rect dstRect = { p_x,p_y, p_sprite->GetSource().w, p_sprite->GetSource().h };
+	SDL_RenderCopy(m_renderer, p_sprite->GetTexture(), &p_sprite->GetSource(), &dstRect);
 }
 
 void DrawManager::DebugDraw(int p_x, int p_y, int p_w, int p_h)
 {
-	SDL_Rect rect = { p_x, p_y, p_w, p_h };
+	SDL_Rect rect = { p_x,p_y,p_w,p_h };
 	SDL_RenderDrawRect(m_renderer, &rect);
+}
+
+void DrawManager::DebugDraw(SDL_Rect &p_rect)
+{
+	
+}
+
+void DrawManager::DebugDraw(SDL_Rect & p_rect, Uint8 p_r, Uint8 p_g, Uint8 p_b, Uint8 p_a)
+{
+	SaveDrawColor();
+	SetDrawColor(p_r, p_g, p_b, p_a);
+	SDL_RenderDrawRect(m_renderer, &p_rect);
+	LoadDrawColor();
+}
+
+SDL_Renderer * DrawManager::GetRenderer()
+{
+	return m_renderer;
+}
+
+void DrawManager::SaveDrawColor()
+{
+	SDL_GetRenderDrawColor(m_renderer, &m_r, &m_g, &m_b, &m_a);
+}
+
+void DrawManager::LoadDrawColor()
+{
+	SDL_SetRenderDrawColor(m_renderer, m_r, m_g, m_b, m_a);
 }

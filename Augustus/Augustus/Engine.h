@@ -4,20 +4,29 @@ class DrawManager;
 class SpriteManager;
 class StateManager;
 class InputManager;
+class SoundManager;
+class IGame;
 
-class Engine {
+class Engine
+{
 public:
 	Engine();
 	~Engine();
-	void Initialize(); // create all managers
-	void Shutdown(); // delete all managers
-	void Run(); // handle all events, calculate delta, update the statemachine
+	void Initialize(); // Create all manager, initialize SDL
+	void Shutdown(); // Delete all managers, shutdown SDL
+	void Run(); // Handle all events, calculate delta, update the GAME
+	
 private:
+	void HandleEvents(); // Handles all events from SDL_Pollevents
+	void CalculateDeltatime(); // Calculates the time in ms between this and the last
 	DrawManager* m_drawManager;
 	SpriteManager* m_spriteManager;
 	StateManager* m_stateManager;
 	InputManager* m_inputManager;
+	SoundManager* m_soundManager;
 	bool m_running;
-	void HandleEvents(); // handles all events from SDL_Pollevents
-	void CalculateDeltatime(); // calculates the time in ms between this and the last
+	unsigned int m_lastTick;
+	float m_delta;
+
+	IGame* m_game;
 };

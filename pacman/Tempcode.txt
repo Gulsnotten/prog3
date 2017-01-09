@@ -1,0 +1,153 @@
+Tempcode
+
+/* ### TEMP CODE ### */
+m_stateManager->AddState("TestState", new TestConcreteState());
+m_stateManager->SetState("TestState");
+/* ### TEMP CODE ### */
+
+
+
+
+StateManager
+	must be controlled outside of itself. Contains no internal framework for switching between states.
+
+	States send shit to NotificationCenter, PacmanGame is Observer?
+	what does PacmanGame listen for...?
+		Messages of a certain type? e.g. PacmanState
+
+	StateManager Observes States as Subjects
+		Declares observing of subject in AddState
+
+	Is StateManager ACTUALLY a statemachine ???
+	what is the USE of StateManager?
+		The example state has all variables contained in itself, and does not get a struct or anything from its Manager. StateManager might be used for States that are completely unrelated to each other
+
+
+	PacmanGame : StateManager
+
+		// issue : inform the states of all states' tags
+
+		public const
+			ExampleTag_MainMenu = "MainMenu",
+			ExampleTag_Playing = "Playing",
+
+		Update{
+			state->Update(this) // the state gets a reference to its manager
+		}
+
+
+	IndependentFSM : StateManager
+
+		SetState(IState* p_state)
+			m_currentState = p_state;
+
+	Where should the FSM be controlled?
+	in previous examples a FSM could be very non-generic and have its states as members.
+	The switching logic would be contained in the Update of the FSM.
+		controlling: middle-layer
+	remarks: it's not reusable
+
+	StateManager provides an interface for switching between states but no information is provided for the type of the current state or if its "dead.
+	the switching logic would be contained outside of the FSM, probably spread communication between states and "above" the FSM.
+		controlling: upper layer (+ lower layer)
+	remarks: reusable, but the communication for state switching is unclear
+		States are unrelated to each other
+
+	SelfContained_FSM lets the states control all switching logic. The states can't communicate bewteen themselves, only with the FSM.
+		controlling: lower layer
+	remarks: reusable, but doesn't save previous states.
+
+	Self Contained FSM with map
+		SetState(string id, IState state)
+		// if the id already exist in the map, switch to it.
+	remarks: if different States need to access the same id it needs to be provided.
+		therefore passing the IState in SetState is kind of pointless.
+
+	GenericPDA
+
+
+	SelfContained_FSM
+	public:
+		SetState(IState)
+		Quit()
+		Update(){
+			m_currentState->Update(this)
+		}
+		// + can be easily used by States.
+		// - can be accessed from the outside - which it's not meant to do (self-contained)
+		// solution: make the states a friend class? bleugh
+
+	FSM_SelfContained
+	public
+		enum FSM_SelfContained_ReturnFlag { Keep, Quit, Next }
+		Update{
+			switch (m_currentState->Update()){
+				case ...
+			}
+		}
+	private:
+		SwitchState()
+
+	IState_SelfContained
+	public:
+		FSM_SelfContained_ReturnFlag Update();
+		IState_SelfContained NextState();
+
+
+
+	Game: Generic Self contained
+		* doesn't need to save previous states
+		* doesn't need access to data structs
+		States:
+			* main menu IS ITS OWN FSM
+				// unnecessarily sef contained: main menu states has no way of communicating with playing
+			* playing
+
+	MainMenu: Generic PDA
+		* doesn't need access to data structs
+
+		// issue : how does MainMenu communicate with the upper FSM that controlls Playing and Quit?
+
+
+	GamePuppeteer
+		// static functionality to control the statemachine "Game"
+		// issue: very specific :I ...or not
+		// it's an alternate way of controlling the StateMachine instead of notifications.
+
+		StateMachine* game
+
+		StartGame()
+		GameOver()
+
+	PLAYING is part of MENU
+		titlescreen
+			main menu
+				start
+					playing
+				options
+
+		// issue : total control is not suggested. a function like
+				DeleteHistory()
+					SetState(IState)
+				or PopTo(string id)
+			could be needed.
+		// also this is kinda avoiding the issue of communicating between nestled statemachines.
+
+	Pacman: self contained
+		* needs data structs
+		* states
+			(wait state is unecessary because it can be handled in gamestate)
+			* move state
+			* die state (animation)
+
+			maybe not self-contained but controlled outside? gamestate could want to call pacman.die()
+
+
+
+
+
+
+
+
+	level
+		array 

@@ -1,0 +1,19 @@
+diary #2
+
+	PATHFINDING
+
+when choosing pathfinding method I just wanted something that I know I could get to work. With as small a map as pacman, Dijkstra's algorithm should work fine. since each tile would check itself and the 4 neighbouring tiles, I thought it would make sense to use a recursive function.
+
+When testing the implementation there was a bunch of lag. I could see that the pathfinding was working, but the fps was way too low. I checked how many times the recursive function was called each frame, and it was around 2500-3500 iterations. This was unreasonable. I could lag myself into the ghost house thanks to the low framerate, and in there the function was called about 60 times. the room is 3 x 6, so the function should have been called around 20 times.
+
+I realized that since the function was recursive, the whole room was flooded in one direction before iterating on the 3 other directions. I needed the tiles closest to the goal to be checked first. Instead of a recursive function I made a list of structs called Tickets, that contained the position of the tile and how many iterations from the goal it had taken. In a loop the Ticket at the front of the list is checked and sends its iterations to the back of the list. it is then removed, and it keeps looping until the list is empty. This way the "hottest" tiles are checked first.
+
+
+	MOVEMENT
+
+MovementState
+MovementModule with MovementController
+
+Ghost is a State Machine, Player is not. Since both needed movement it couldn't be a state, so I decided to make it a module that both could use. All you needed to do was feed it a pointer to a position and it would manipulate it for you.
+
+First I decided to have the module in the States of the Ghost. But since there was so many states that needed the module, it was a hassle to pass around the Level pointer that it needed. Since both Ghost and Player are GameObjects, I made it a member of GameObjectData, which I gave the States a pointer to.

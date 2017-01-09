@@ -1,0 +1,47 @@
+Tile
+	wall
+		gate
+	ground
+		empty
+		pellet
+		powerup
+
+
+Tile <-- created in factory ??
+	static CreateEmpty;
+	static CreateWall; etc.
+
+	bool collision
+	enum TileType { empty, wall, gate, pellet, powerup }
+	Sprite Texture
+
+
+
+
+GameObject
+	currentDirection
+	OnStep()
+	GetOpenDirs() // enum directions { up, down, left, right }
+
+
+
+Ghost
+	IState GotoLocation (TileType[] allowedTiles, float x, float y) // ex 14.5, bla bla middle of house
+		// made for going to house ?
+
+	standard ghost:
+		virtual vect2 GetNextGoal(Pacman*)
+
+		update(){
+			if (GotoLocation.Update()){
+				GotoLocation.SetGoal(GetNextGoal());
+			}
+		}
+
+		Notify(string notification){
+			if (notification == BLUE_PILL){
+				GotoLocation.SetGoal(HOUSE_LOC);
+
+				SetAnimation( BLUE_ANIMATION );
+			}
+		}

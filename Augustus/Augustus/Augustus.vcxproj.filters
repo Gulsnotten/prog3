@@ -13,6 +13,102 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\DrawManager">
+      <UniqueIdentifier>{e8a294c7-3d96-4f06-b818-37446c236f06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SpriteManager">
+      <UniqueIdentifier>{388b2b9d-f638-4f29-9262-b6632447d273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\StateManager">
+      <UniqueIdentifier>{efc70aa0-cc36-47f9-9319-b1d2b23607bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DrawManager">
+      <UniqueIdentifier>{2fd3e935-8a3c-4655-ae44-f561abd887ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SpriteManager">
+      <UniqueIdentifier>{4d45d671-95ae-458c-86dd-a96b46967c89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\StateManager">
+      <UniqueIdentifier>{a03d9387-4d31-4922-b980-9cc2e2fbee64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\InputManager">
+      <UniqueIdentifier>{ba6d38d2-be1d-45dd-a593-c2db1fc39395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\InputManager">
+      <UniqueIdentifier>{fcc4daee-ea1d-4d04-adbf-46c4c77f2aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\InputManager\InputDevices">
+      <UniqueIdentifier>{38661a60-ea09-4ceb-ae9b-4ff3d0c035ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\InputManager\InputDevices">
+      <UniqueIdentifier>{0df0e05c-adcf-48e8-9eba-666404a551eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{38d28c0d-cba9-4520-9959-d7f93cf79e4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CollisionManager">
+      <UniqueIdentifier>{4d59aef6-96c2-438e-97ba-1c36fbfe9d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CollisionManager">
+      <UniqueIdentifier>{8d4e8229-68b1-47b2-bf38-7d6de6aa4a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TestScripts">
+      <UniqueIdentifier>{c1747ed5-d7dc-422d-bac7-6cb18ed368ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SoundManager">
+      <UniqueIdentifier>{8a9e38e1-255f-4679-88f9-781cded07613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SoundManager">
+      <UniqueIdentifier>{25908425-14de-436c-9d2b-4846d9c6efcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{4c81c5c6-1523-4ada-9bdb-1594bb91e0d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TestScripts">
+      <UniqueIdentifier>{477694b2-942b-4a38-ac7d-660b1e672112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pacman">
+      <UniqueIdentifier>{22d48cba-becd-4122-95c1-1a35d1744f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pacman">
+      <UniqueIdentifier>{8696d28a-9bdb-4f53-93ed-ff627d1cc829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pacman\PDA">
+      <UniqueIdentifier>{b052801c-1aaf-4b22-ba16-2254d9b68c04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pacman\PDA">
+      <UniqueIdentifier>{238b66cb-4e9f-48d0-b449-a01eb5fcedca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pacman\GameObject">
+      <UniqueIdentifier>{0fef0cee-6cfd-4009-ae80-7f6d5d05ba0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pacman\GameObject">
+      <UniqueIdentifier>{6d903ae3-f437-404a-a67a-727d798e3fb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pacman\GameObject\States">
+      <UniqueIdentifier>{c547685c-a296-49c0-9ce2-4fa64677c867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pacman\Animation">
+      <UniqueIdentifier>{d9d7249c-b843-47a1-aeec-b7030768a7b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pacman\Animation">
+      <UniqueIdentifier>{2bffecbe-eb4c-4233-b72f-b72d4d582800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pacman\Observer">
+      <UniqueIdentifier>{64c3e4b0-38ab-4ad4-8291-392bb2e2302c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pacman\Observer">
+      <UniqueIdentifier>{6f1027b2-93a2-4adb-b6e4-ec1b56b05d95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pacman\GameObject\ConcreteObjects">
+      <UniqueIdentifier>{e90835fc-cd8b-4897-ba28-14ef70c46d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pacman\GameObject\ConcreteObjects\States">
+      <UniqueIdentifier>{4deb5d2a-1196-4881-9782-6b5ae0eaff23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pacman\GameLoop">
+      <UniqueIdentifier>{0296cb10-0d70-444f-95e7-5e1b8b5ce566}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -27,13 +123,187 @@
     <ClInclude Include="Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DrawManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\SpriteManager</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Header Files\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawManager.h">
+      <Filter>Header Files\DrawManager</Filter>
+    </ClInclude>
+    <ClInclude Include="IState.h">
+      <Filter>Header Files\StateManager</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
+      <Filter>Header Files\SpriteManager</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Header Files\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Header Files\InputManager\InputDevices</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Header Files\InputManager\InputDevices</Filter>
+    </ClInclude>
+    <ClInclude Include="IEntity.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IDrawable.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Header Files\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ICollideable.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TestPlayerObject.h">
+      <Filter>Header Files\TestScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="TestEnemyObject.h">
+      <Filter>Header Files\TestScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="TestConcreteState.h">
+      <Filter>Header Files\TestScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Header Files\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PacmanGame.h">
+      <Filter>Header Files\Pacman</Filter>
+    </ClInclude>
+    <ClInclude Include="IGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PDA.h">
+      <Filter>Header Files\Pacman\PDA</Filter>
+    </ClInclude>
+    <ClInclude Include="IState_PDA.h">
+      <Filter>Header Files\Pacman\PDA</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScreenState.h">
+      <Filter>Header Files\Pacman</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Pacman</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files\Pacman</Filter>
+    </ClInclude>
+    <ClInclude Include="vect2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\Pacman\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="AmbushState.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaseState.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FleeingState.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomBehaviorState.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
+    </ClInclude>
+    <ClInclude Include="RoamAtRandom_State.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
+    </ClInclude>
+    <ClInclude Include="RunToHouse.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingState.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationController.h">
+      <Filter>Header Files\Pacman\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files\Pacman\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GhostAnimations.h">
+      <Filter>Header Files\Pacman\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionCollection.h">
+      <Filter>Header Files\Pacman\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAnimations.h">
+      <Filter>Header Files\Pacman\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicClip.h">
+      <Filter>Header Files\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundClip.h">
+      <Filter>Header Files\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GhostSoundPicker.h">
+      <Filter>Header Files\Pacman</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Pacman\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Header Files\Pacman\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files\Pacman</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitState.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Ghost.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinderModule.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementModule.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectData.h">
+      <Filter>Header Files\Pacman\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="IAnimationAble.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IRoamingState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSession.h">
+      <Filter>Header Files\Pacman\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayingState.h">
+      <Filter>Header Files\Pacman\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameState.h">
+      <Filter>Header Files\Pacman\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateData.h">
+      <Filter>Header Files\Pacman\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="StartAnimationState.h">
+      <Filter>Header Files\Pacman\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAnimationState.h">
+      <Filter>Header Files\Pacman\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathAnimationState.h">
+      <Filter>Header Files\Pacman\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -48,13 +318,184 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DrawManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\DrawManager</Filter>
     </ClCompile>
     <ClCompile Include="SpriteManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\SpriteManager</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files\SpriteManager</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Source Files\StateManager</Filter>
+    </ClCompile>
+    <ClCompile Include="IState.cpp">
+      <Filter>Source Files\StateManager</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source Files\InputManager\InputDevices</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Source Files\InputManager\InputDevices</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Source Files\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Source Files\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="IDrawable.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="IEntity.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ICollideable.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TestConcreteState.cpp">
+      <Filter>Source Files\TestScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="TestEnemyObject.cpp">
+      <Filter>Source Files\TestScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="TestPlayerObject.cpp">
+      <Filter>Source Files\TestScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PacmanGame.cpp">
+      <Filter>Source Files\Pacman</Filter>
+    </ClCompile>
+    <ClCompile Include="IGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PDA.cpp">
+      <Filter>Source Files\Pacman\PDA</Filter>
+    </ClCompile>
+    <ClCompile Include="IState_PDA.cpp">
+      <Filter>Source Files\Pacman\PDA</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScreenState.cpp">
+      <Filter>Source Files\Pacman</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Pacman</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\Pacman</Filter>
+    </ClCompile>
+    <ClCompile Include="vect2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Pacman\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementModule.cpp">
+      <Filter>Source Files\Pacman\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Ghost.cpp">
+      <Filter>Source Files\Pacman\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinderModule.cpp">
+      <Filter>Source Files\Pacman\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Pacman\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="AmbushState.cpp">
+      <Filter>Source Files\Pacman\GameObject\States</Filter>
+    </ClCompile>
+    <ClCompile Include="ChaseState.cpp">
+      <Filter>Source Files\Pacman\GameObject\States</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitState.cpp">
+      <Filter>Source Files\Pacman\GameObject\States</Filter>
+    </ClCompile>
+    <ClCompile Include="FleeingState.cpp">
+      <Filter>Source Files\Pacman\GameObject\States</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomBehaviorState.cpp">
+      <Filter>Source Files\Pacman\GameObject\States</Filter>
+    </ClCompile>
+    <ClCompile Include="RunToHouse.cpp">
+      <Filter>Source Files\Pacman\GameObject\States</Filter>
+    </ClCompile>
+    <ClCompile Include="WaitingState.cpp">
+      <Filter>Source Files\Pacman\GameObject\States</Filter>
+    </ClCompile>
+    <ClCompile Include="RoamAtRandom_State.cpp">
+      <Filter>Source Files\Pacman\GameObject\States</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationController.cpp">
+      <Filter>Source Files\Pacman\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Pacman\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GhostAnimations.cpp">
+      <Filter>Source Files\Pacman\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionCollection.cpp">
+      <Filter>Source Files\Pacman\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAnimations.cpp">
+      <Filter>Source Files\Pacman\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicClip.cpp">
+      <Filter>Source Files\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundClip.cpp">
+      <Filter>Source Files\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Source Files\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GhostSoundPicker.cpp">
+      <Filter>Source Files\Pacman</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Source Files\Pacman\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Source Files\Pacman\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IAnimationAble.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="IRoamingState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSession.cpp">
+      <Filter>Source Files\Pacman</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IGameState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayingState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartAnimationState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathAnimationState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WinAnimationState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

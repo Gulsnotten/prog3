@@ -1,0 +1,57 @@
+TODO
+
+
+pacman <---> ghost collision
+
+
+
+	RESTRUCTURE
+
+make sure all pointers follow the "wPtr" naming convention. Even SoundClip and Sprites
+	OR replace all "wPtr" with "" :]
+
+GameObject -> Entity
+
+IMoveable
+	MovementModule*
+	Level*
+
+IDrawable
+	make GameObject a Drawable
+
+	Remove Draw function from IState, or give it : public Drawable
+
+
+
+
+polish:
+	faster pathfinding
+
+
+
+
+"../Assets/plopp.ogg"
+
+
+
+
+
+
+
+
+
+
+
+
+Game is PDA
+	TitleScreen
+		Playing :)
+			(highscore)
+
+
+Playing
+	start animation
+		default
+			win animation
+
+	doesn't need to be a state cus it's so simple?

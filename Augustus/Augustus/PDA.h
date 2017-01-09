@@ -1,0 +1,24 @@
+#pragma once
+#include <vector>
+
+class IState_PDA;
+
+class PDA
+{
+public:
+	PDA(IState_PDA* p_state);
+	~PDA();
+
+	enum PDA_ReturnFlag { Keep, Quit, Push, Pop, Switch, Replace_Root };
+
+	bool Update(float p_delta);
+private:
+	void PushState(IState_PDA* p_state);
+	void PopState();
+	void SwitchState(IState_PDA* p_state);
+	void ReplaceRootState(IState_PDA* p_state);
+
+	std::vector<IState_PDA*> history;
+	IState_PDA* m_currentState;
+};
+

@@ -1,0 +1,130 @@
+
+modules
+	
+	Position*
+
+	movement
+		Direction* 
+		IMovementBehavior* m_behavior
+		SetBehavior(IMovementBehavior* p_behavior)
+
+			// ChaseBehavior needs a pointer to a position module (pacmans position)
+			// This is assigned like movement->SetBehavior(new ChaseBehavior(position))
+			// behavior is a pointer because we can store several pointers in parent of movement
+
+		Update(float p_delta){
+			// if at intersection
+				*Direction = m_behavior->OnIntersection(direction)
+
+			// check for spontaneus direction change
+				*Direction = m_behavior->SpontaneusDirectionChange(direction)
+		}
+
+	animation
+		Setanimation()
+
+
+IMovementBehavior
+	Position* m_myPosition
+	
+	virtual Direction OnIntersection(Direction*) = 0;
+	virtual Direction SpontaneusDirectionChange(Direction*) = 0;
+
+
+
+
+
+Example:
+
+	Pacman
+		Position* m_position
+		IMovementBehavior* m_behavior	// ControllerBehavior
+		Movement m_movement
+
+		Update(float p_delta){
+			// logic
+
+			m_movement.Update(p_delta);
+		}
+
+
+	Ghost
+		Position* m_position
+		Movement m_movement
+		IMovementBehavior* m_waiting <<<<<<<<<<
+		IMovementBehavior* m_roaming
+		IMovementBehavior* m_fleeing
+		IMovementBehavior* m_runHome <<<<<<
+
+		Update(float p_delta)
+
+		Flee()
+		Spawn()
+
+
+
+
+Ghost (not PDA - generic FSM){
+	WaitState*			
+	RoamingState*		
+	FleeingState*		
+	GotoPathfindState*	m_runHomeState
+	IState* m_currentState
+
+	AnimationController* 
+	Position* m_position
+
+	Update()
+}
+
+
+
+
+GameObjectData
+	AnimationController*
+	Position*
+
+
+
+
+
+
+
+
+
+Movement  <---- module!!
+private:
+	Direction
+public:
+	Update(Vect2 directionBuffer);
+	GetDirection()
+
+
+
+
+
+
+IGNORE ANIMATIONS FOR NOW!!!!
+
+
+
+States
+	Waiting
+
+	ExitHouse
+
+	Fleeing // tells the MovementModule to go reverse from what AI behavior says
+			// half speed
+
+	RunToHouse
+
+	AI ROAMING
+		GotoLocation 	// just goes there.
+						// is switched from the outside regardless if its done or not
+						// returns FALSE when it has reached its goal
+
+		RoamAtRandom
+
+		last one switches between
+			2 different GotoLocation
+			RoamAtRandom
