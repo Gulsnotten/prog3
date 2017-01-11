@@ -11,6 +11,8 @@ class ExitState;
 class FleeingState;
 class RunToHouseState;
 
+class Animation;
+
 class Ghost : public GameObject
 {
 private:
@@ -27,6 +29,8 @@ private:
 
 	void SwitchState(IState* p_state);
 	void SetAnimation();
+protected:
+	void UpdateCollider();
 public:
 	Ghost(GameObjectData* p_data, IRoamingState * p_roaming, Vect2* p_playerPos, int p_color);
 	virtual ~Ghost();
@@ -36,7 +40,7 @@ public:
 	void StartRoaming();
 	void StartWaiting(int p_wait);
 	void Flee();
-	void RunToHouse();
+	void RunToHouse(Animation* p_animation);
 
 	bool IsFleeing();
 	bool IsDead();

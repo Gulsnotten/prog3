@@ -5,7 +5,10 @@
 namespace Config {
 	
 	static const std::string
-		POWER_UP_MSG = "POWER_UP";
+		POWER_UP_MSG = "POWER_UP",
+		ATE_PELLET_MSG = "ATE_PELLET",
+		SCORE_PATH = "../Assets/highscores.txt"
+		;
 	static const int
 		MOVEMENT_SPEED = 8,
 		MOVEMENT_SPEED_SLOW = 4,
@@ -16,13 +19,29 @@ namespace Config {
 		ANIMATION_SPEED_PACMAN = 50,
 		ANIMATION_SPEED_PACMAN_DEATH = 150,
 		ANIMATION_SPEED_GHOST = 150,
+		ANIMATION_SPEED_POWER_UP = 200,
 		SPRITE_SIZE = 16,
 		TILE_SIZE = 8,
-		WIN_FLASH_SPEED = 250
+		WIN_FLASH_SPEED = 250,
+
+		WINDOW_WIDTH = 224,
+		WINDOW_HEIGHT = 288,
+		WINDOW_SCALE = 3,
+
+		START_EXTRA_LIFE = 0,
+
+		POINT_PELLET = 1,
+		POINT_POWER_UP = 5,
+		POINT_GHOST = 20,
+		ONE_UP_AT = 1000,
+
+		MAX_SCORES = 5,
+		START_SCORE = 100
 		;
 	static const float
 		PAUSE_TIME = 1.0f,
 		WIN_PAUSE_TIME = 1.0f,
-		WIN_ANIMATION_LENGTH = 2.0f
+		WIN_ANIMATION_LENGTH = 2.0f,
+		TEXT_FLASH_SPEED = 0.25f
 		;
 }

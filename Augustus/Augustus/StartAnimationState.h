@@ -3,15 +3,17 @@
 #include "IGameState.h"
 
 class MusicClip;
+class Font;
+class DrawManager;
 
 class StartAnimationState : public IGameState
 {
 private:
 	float m_time;
 	MusicClip* m_musicwPtr;
+	DrawManager* m_drawManagerwPtr;
 
-	// Sprite* m_readySprite;
-	// Sprite* m_player1Sprite;
+	SDL_Color m_yellow;
 public:
 	StartAnimationState(GameStateData* p_data);
 	~StartAnimationState();

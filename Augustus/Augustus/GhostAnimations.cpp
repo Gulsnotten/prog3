@@ -8,6 +8,7 @@
 
 #include "Config.h"
 
+
 GhostAnimations::GhostAnimations()
 {
 	SpriteManager* spriteManager = ServiceLocator<SpriteManager>::GetService();

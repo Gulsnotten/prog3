@@ -109,6 +109,18 @@
     <Filter Include="Header Files\Pacman\GameLoop">
       <UniqueIdentifier>{0296cb10-0d70-444f-95e7-5e1b8b5ce566}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Pacman\Font">
+      <UniqueIdentifier>{e3c87d5b-ed62-454b-988a-b63590111df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TextLoader">
+      <UniqueIdentifier>{1afb9a0a-9927-4107-ab43-053e506bbc46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pacman\Highscores">
+      <UniqueIdentifier>{641d4bfc-e69b-4796-b346-a048ce2e21af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pacman\GameLoop">
+      <UniqueIdentifier>{877301f3-6856-4693-9d70-54c2d7925488}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -282,9 +294,6 @@
     <ClInclude Include="IRoamingState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameSession.h">
-      <Filter>Header Files\Pacman\GameLoop</Filter>
-    </ClInclude>
     <ClInclude Include="PlayingState.h">
       <Filter>Header Files\Pacman\GameLoop</Filter>
     </ClInclude>
@@ -305,6 +314,30 @@
     </ClInclude>
     <ClInclude Include="PauseModule.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files\Pacman\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="TextLoader.h">
+      <Filter>Header Files\TextLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>Header Files\Pacman</Filter>
+    </ClInclude>
+    <ClInclude Include="Highscores.h">
+      <Filter>Header Files\Pacman\Highscores</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>Header Files\Pacman\Highscores</Filter>
+    </ClInclude>
+    <ClInclude Include="HighscoreScreenState.h">
+      <Filter>Header Files\Pacman</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSession.h">
+      <Filter>Header Files\Pacman</Filter>
+    </ClInclude>
+    <ClInclude Include="BlinkModule.h">
+      <Filter>Header Files\Pacman</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -461,9 +494,6 @@
     <ClCompile Include="Subject.cpp">
       <Filter>Source Files\Pacman\Observer</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjectData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IAnimationAble.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
@@ -473,26 +503,50 @@
     <ClCompile Include="GameSession.cpp">
       <Filter>Source Files\Pacman</Filter>
     </ClCompile>
-    <ClCompile Include="GameStateData.cpp">
+    <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IGameState.cpp">
+    <ClCompile Include="TextLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Highscores.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlinkModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlayingState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Pacman\GameLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="IGameState.cpp">
+      <Filter>Source Files\Pacman\GameLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateData.cpp">
+      <Filter>Source Files\Pacman\GameLoop</Filter>
     </ClCompile>
     <ClCompile Include="StartAnimationState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DeathAnimationState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PauseModule.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Pacman\GameLoop</Filter>
     </ClCompile>
     <ClCompile Include="WinAnimationState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Pacman\GameLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathAnimationState.cpp">
+      <Filter>Source Files\Pacman\GameLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="HighscoreScreenState.cpp">
+      <Filter>Source Files\Pacman</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseModule.cpp">
+      <Filter>Source Files\Pacman</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerUp.cpp">
+      <Filter>Source Files\Pacman</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectData.cpp">
+      <Filter>Source Files\Pacman\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

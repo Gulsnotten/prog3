@@ -8,6 +8,10 @@
 #include "DeathAnimationState.h"
 #include "WinAnimationState.h"
 
+#include "HighscoreScreenState.h"
+
+#include "Config.h"
+
 void GameSession::SwitchState(IGameState * p_state)
 {
 	if (m_currentStatewPtr != nullptr)
@@ -20,7 +24,7 @@ GameSession::GameSession()
 {
 	m_data = new GameStateData();
 
-	m_data->Reset();
+	m_data->StartGame(Config::START_EXTRA_LIFE);
 
 	m_playing = new PlayingState(m_data);
 	m_startAnimation = new StartAnimationState(m_data);
@@ -56,42 +60,46 @@ void GameSession::Exit()
 PDA::PDA_ReturnFlag GameSession::Update(float p_delta)
 {
 	bool ret = m_currentStatewPtr->Update(p_delta);
+	m_data->Update(p_delta);
 
 	if (!ret) {
 		if (m_currentStatewPtr == m_startAnimation) {
 			SwitchState(m_playing);
 		}
 		else if (m_currentStatewPtr == m_playing) {
-			if (m_data->m_player->IsDead()) { // LOSE
+			if (m_data->m_player->IsDead()) {	// LOSE
 				SwitchState(m_deathAnimation);
 			}
-			else { // WIN
+			else {								// WIN
 				SwitchState(m_winAnimation);
 			}
 		}
 		else if (m_currentStatewPtr == m_deathAnimation) {
-			if (m_lives > 0) {
-				m_lives--;
-
+			if (!m_data->IsGameOver()) {
 				m_data->Retry();
 				SwitchState(m_startAnimation);
 			}
 			else {
-				return PDA::PDA_ReturnFlag::Pop;
+				m_data->CheckAgainstHighscores();
+
+				return PDA::PDA_ReturnFlag::Switch;
 			}
 		}
 		else if (m_currentStatewPtr == m_winAnimation) {
-			m_data->Reset();
+			m_data->NextScreen();
 			SwitchState(m_startAnimation);
 		}
 	}
 
-	m_currentStatewPtr->Draw();
-
 	return PDA::PDA_ReturnFlag::Keep;
+}
+
+void GameSession::Draw()
+{
+	m_currentStatewPtr->Draw();
 }
 
 IState_PDA * GameSession::NextState()
 {
-	return nullptr;
+	return new HighscoreScreenState(m_data->GetScore());
 }

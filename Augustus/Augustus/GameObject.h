@@ -10,6 +10,8 @@ class GameObject : public IAnimationAble, public ICollideable
 {
 protected:
 	GameObjectData* m_data;
+
+	virtual void UpdateCollider();
 public:
 	GameObject(GameObjectData* p_data, Vect2 p_size);
 	virtual ~GameObject();

@@ -56,6 +56,8 @@ void WinAnimationState::Draw()
 {
 	m_controllerLevel->Draw(Vect2(0, 24));
 	m_controllerPlayer->Draw(m_datawPtr->m_player->GetScreenLocation());
+
+	m_datawPtr->DrawHUD();
 }
 
 void WinAnimationState::Enter()

@@ -69,8 +69,25 @@ void Ghost::SetAnimation()
 	}
 }
 
+void Ghost::UpdateCollider()
+{
+	Vect2 pos = GetScreenLocation();
+	if (m_currentStatewPtr == m_fleeing) {
+		m_collider->m_rect.w = Config::TILE_SIZE;
+		m_collider->m_rect.h = Config::TILE_SIZE;
+		m_collider->m_rect.x = pos.x;
+		m_collider->m_rect.y = pos.y;
+	}
+	else {
+		m_collider->m_rect.x = pos.x + Config::TILE_SIZE / 2;
+		m_collider->m_rect.y = pos.y + Config::TILE_SIZE / 2;
+		m_collider->m_rect.w = 0;
+		m_collider->m_rect.h = 0;
+	}
+}
+
 Ghost::Ghost(GameObjectData * p_data, IRoamingState * p_roaming, Vect2 * p_playerPos, int p_color)
-	: GameObject(p_data, Vect2(float(Config::TILE_SIZE), float(Config::TILE_SIZE)))
+	: GameObject(p_data, Vect2::ZERO)
 {
 	m_color = p_color;
 
@@ -143,8 +160,10 @@ void Ghost::Flee()
 	}
 }
 
-void Ghost::RunToHouse()
+void Ghost::RunToHouse(Animation* p_animation)
 {
+	m_animation->SetAnimation(p_animation);
+
 	SwitchState(m_runToHouse);
 }
 

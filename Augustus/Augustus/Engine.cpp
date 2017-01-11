@@ -88,6 +88,7 @@ void Engine::Run()
 
 		if (!m_game->Update(m_delta))
 			m_running = false;
+		m_game->Draw();
 
 		m_inputManager->Update();
 		m_drawManager->Present();

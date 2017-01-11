@@ -4,6 +4,7 @@
 #include "GameObject.h"
 
 class PathFinderModule;
+class Collider;
 
 class FleeingState
 	: public RoamAtRandom_State

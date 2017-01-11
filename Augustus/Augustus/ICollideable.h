@@ -8,6 +8,6 @@ public:
 	ICollideable();
 	ICollideable(Collider* p_collider);
 	virtual ~ICollideable();
-	virtual void OnCollision(ICollideable* p_other) = 0;
+	virtual void OnCollision(ICollideable* p_other);
 	Collider* m_collider = nullptr;
 };

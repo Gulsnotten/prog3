@@ -18,4 +18,3 @@ public:
 
 	Animation* Still;
 };
-

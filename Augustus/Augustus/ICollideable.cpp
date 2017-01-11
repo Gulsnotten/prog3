@@ -17,3 +17,7 @@ ICollideable::~ICollideable()
 	delete m_collider;
 	m_collider = nullptr;
 }
+
+void ICollideable::OnCollision(ICollideable * p_other)
+{
+}

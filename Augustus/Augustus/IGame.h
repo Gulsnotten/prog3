@@ -9,5 +9,6 @@ public:
 	virtual void Exit() = 0;
 
 	virtual bool Update(float p_delta) = 0;
+	virtual void Draw() = 0;
 };
 

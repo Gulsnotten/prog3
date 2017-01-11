@@ -1,7 +1,26 @@
 TODO
 
 
-pacman <---> ghost collision
+PLAY INTRO FROM PAC-MAN CARTOON ON NEW HIGHSCORE :D
+
+	itermission
+		"I taste great btw"
+		"im not stinky, i'm PINKY! I smell great"
+		"It's this way blinky. ny way pinky" etc etc
+		"EWW this smells like sewage! what is this stuff?	....	sewage :)"
+
+
+HUD <-- requirement
+	
+	score
+
+	extra lives
+
+
+Highscores
+
+
+
 
 
 

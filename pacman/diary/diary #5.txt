@@ -1,0 +1,29 @@
+Diary
+
+	FONT
+
+For this game I wanted a custom font, so heres what I did:
+	* load a .txt-file with all the characters from the font texture, in the same order
+	* chop the texture into sprites of the independent characters, and put it in a map with the corresponding char from the .txt-file as the key.
+When printing a string I can just access each char of the string through the map
+
+
+
+	Changes to Collision
+
+Made Player and the Ghosts always use a Collider to check collisions, except for eating pellets (which are not ICollideable). For the hitboxes to feel fair, the ghosts standard Collider is just a point in the middle of the 
+sprite. when the Ghost turns blue, his Collider expands to Pacmans size.
+
+
+
+	HUD
+
+Now prints
+	* extra lives
+	* score
+
+
+
+	Ghost score visualization
+
+You pass an Animation* in Flee() now, which the ghost switches to. Since the ghost is not updated during the pause, the ghost will keep this Animation until the pause ends.

@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Level.h"
 
-#include <iostream>
-#include <fstream>
 #include <string>
 #include <vector>
 
@@ -14,6 +12,14 @@
 #include "Sprite.h"
 
 #include "vect2.h"
+
+#include "TextLoader.h"
+#include <iostream>
+
+#include "PowerUp.h"
+#include "Config.h"
+
+#include "CollisionManager.h"
 
 const int	Level::WIDTH = 28,
 			Level::HEIGHT = 31;
@@ -41,11 +47,23 @@ Tile Level::charToTile(char c)
 	return Tile();
 }
 
+void Level::DeletePowerUps()
+{
+	for (auto p : m_powerUps) {
+		if (p != nullptr) {
+			delete p;
+			p = nullptr;
+		}
+	}
+	m_powerUps.clear();
+}
+
 Level::Level(){
 	SpriteManager* spriteManager = ServiceLocator<SpriteManager>::GetService();
-	m_drawManager = ServiceLocator<DrawManager>::GetService();
+	m_drawManagerwPtr = ServiceLocator<DrawManager>::GetService();
 	m_pelletSprite = spriteManager->CreateSprite("../Assets/pellet.png", 0, 0, 8, 8);
 	m_powerupSprite = spriteManager->CreateSprite("../Assets/pellet.png", 8, 0, 8, 8);
+	m_levelSpritewPtr = spriteManager->CreateSprite("../Assets/level.png", 0, 0, 224, 248);
 }
 
 
@@ -55,39 +73,42 @@ Level::~Level()
 
 void Level::LoadLevel()
 {
-	std::vector<std::string> raw_level;
-	raw_level.clear();
-
-	std::ifstream file("../Assets/level.txt");
-	assert(file.is_open());
-	std::string line;
-	while (std::getline(file, line))
-	{
-		//std::cout << line << '\n';
-		raw_level.push_back(line);
-	}
-	file.close();
+	std::vector<std::string> raw_level = TextFileManipulator::LoadFile("../Assets/level.txt");
 
 	for (auto str : raw_level)
 		std::cout << str << '\n';
 
 	m_tiles.clear();
+	DeletePowerUps();
+
 	m_pelletsCount = 0;
 
+	int y = 0;
 	for (auto str : raw_level) {
+		int x = 0;
 		std::vector<Tile> row;
 		for (auto c : str) {
 			Tile tile = charToTile(c);
 
-			row.push_back(tile);
-
-			if (tile.GetType() == TileType::Pellet ||
-				tile.GetType() == TileType::Powerup)
+			if (tile.GetType() == TileType::Pellet)
 			{
 				m_pelletsCount++;
 			}
+
+			if (tile.GetType() == TileType::Powerup) {
+				tile = Tile(TileType::Empty);
+
+				m_powerUps.push_back(
+					new PowerUp(Vect2(x * Config::TILE_SIZE, y * Config::TILE_SIZE + 24))
+				);
+			}
+
+			row.push_back(tile);
+
+			x++;
 		}
 		m_tiles.push_back(row);
+		y++;
 	}
 }
 
@@ -102,10 +123,10 @@ void Level::DrawPellets(const int &p_x, const int &p_y)
 			int posy = p_y + (y * 8);
 
 			if (t.GetType() == TileType::Pellet) {
-				m_drawManager->Draw(m_pelletSprite, posx, posy);
+				m_drawManagerwPtr->Draw(m_pelletSprite, posx, posy);
 			}
 			if (t.GetType() == TileType::Powerup) {
-				m_drawManager->Draw(m_powerupSprite, posx, posy);
+				m_drawManagerwPtr->Draw(m_powerupSprite, posx, posy);
 			}
 			x++;
 		}
@@ -143,6 +164,28 @@ void Level::ReplaceTile(Vect2 p_vect2, Tile p_tile)
 	}
 
 	m_tiles[y][x] = p_tile;
+}
+
+bool Level::PowerUpCollision(ICollideable * p_other)
+{
+	bool collided = false;
+
+	for (unsigned int i = 0; i < m_powerUps.size(); i++) {
+		PowerUp* powerup = m_powerUps[i];
+
+		if (CollisionManager::CheckCollision(powerup, p_other)) {
+			collided = true;
+
+			delete powerup;
+			m_powerUps[i] = nullptr;
+
+			auto it = m_powerUps.begin();
+			m_powerUps.erase(it + i);
+			i--;
+		}
+	}
+
+	return collided;
 }
 
 std::vector<Vect2> Level::AvailableDirections(Vect2 p_pos)
@@ -226,5 +269,28 @@ bool Level::IsIntersection(Vect2 p_pos)
 
 int Level::PelletsCount()
 {
-	return m_pelletsCount;
+	return m_pelletsCount + m_powerUps.size();
+}
+
+void Level::ResetAnimation()
+{
+	for (auto p : m_powerUps) {
+		p->ResetAnimation();
+	}
+}
+
+void Level::Update(float p_delta)
+{
+	for (auto p : m_powerUps) {
+		p->Update(p_delta);
+	}
+}
+
+void Level::Draw()
+{
+	m_drawManagerwPtr->Draw(m_levelSpritewPtr, 0, 24);
+
+	for (auto p : m_powerUps) {
+		p->Draw();
+	}
 }

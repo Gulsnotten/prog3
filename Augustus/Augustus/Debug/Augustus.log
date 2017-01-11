@@ -1,6 +1,5 @@
-﻿  GameSession.cpp
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  TitleScreenState.cpp
+﻿  GameStateData.cpp
+c:\users\erik säll\documents\github\prog3\augustus\augustus\gamestatedata.cpp(197): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+c:\users\erik säll\documents\github\prog3\augustus\augustus\gamestatedata.cpp(216): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
   Augustus.vcxproj -> C:\Users\Erik Säll\Documents\GitHub\prog3\Augustus\Debug\Augustus.exe
   Augustus.vcxproj -> C:\Users\Erik Säll\Documents\GitHub\prog3\Augustus\Debug\Augustus.pdb (Full PDB)

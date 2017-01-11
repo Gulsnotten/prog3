@@ -1,6 +1,10 @@
 #pragma once
 #include <vector>
 
+// thanks Erik Wallin for the idea for the name Vect2,
+// even though I read it wrong and it actually said "Vec2"
+// also it was a header somewhere, not actually something he did :^)
+
 class Vect2
 {
 public:
@@ -22,8 +26,6 @@ public:
 
 	float x, y;
 
-	static const Vect2 ZERO;
-
 	Vect2 Round() const;
 	Vect2 Floor() const;
 	Vect2 GetOffset() const;
@@ -32,6 +34,7 @@ public:
 	void GotoX(float p_x, float p_speed);
 	void GotoY(float p_y, float p_speed);
 
+	static const Vect2 ZERO;
 	static const Vect2 UP;
 	static const Vect2 DOWN;
 	static const Vect2 LEFT;

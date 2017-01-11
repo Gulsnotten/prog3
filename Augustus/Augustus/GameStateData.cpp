@@ -11,6 +11,11 @@
 #include "ServiceLocator.h"
 #include "SpriteManager.h"
 #include "DrawManager.h"
+#include "SoundManager.h"
+
+#include "Font.h"
+#include "Highscores.h"
+#include "BlinkModule.h"
 
 void GameStateData::DeleteObjects()
 {
@@ -51,8 +56,6 @@ void GameStateData::CreateObjects()
 	CreatePlayer();
 
 	CreateGhosts();
-
-	//m_player->AddObserver(this); //TODO: fix this
 }
 
 void GameStateData::CreateLevel()
@@ -99,10 +102,6 @@ void GameStateData::CreateGhosts()
 	for (unsigned int i = 1; i < m_ghosts.size(); i++) {
 		m_ghosts[i]->StartWaiting(i * Config::SPAWN_TIME);
 	}
-
-	SpriteManager* spriteManager = ServiceLocator<SpriteManager>::GetService();
-	m_drawManagerwPtr = ServiceLocator<DrawManager>::GetService();
-	m_levelSpritewPtr = spriteManager->CreateSprite("../Assets/level.png", 0, 0, 224, 248);
 }
 
 void GameStateData::AddGhost(IRoamingState * roaming, GameObjectData * p_data)
@@ -129,11 +128,30 @@ GameObjectData * GameStateData::CreateGhostData(Vect2 * p_pos)
 GameStateData::GameStateData()
 {
 	m_score = 0;
+	SpriteManager* spriteManager = ServiceLocator<SpriteManager>::GetService();
+	m_drawManagerwPtr = ServiceLocator<DrawManager>::GetService();
+	m_fontwPtr = ServiceLocator<Font>::GetService();
+	m_extraLifeSprite = spriteManager->CreateSprite("../Assets/extralife.png", 0, 0, 16, 16);
+
+	SoundManager* soundManager = ServiceLocator<SoundManager>::GetService();
+	m_1UPSoundwPtr = soundManager->CreateSound("../Assets/sound/extrapac.wav");
+
+	m_highscoreswPtr = ServiceLocator<Highscores>::GetService();
+
+	m_blinker = new BlinkModule(Config::TEXT_FLASH_SPEED);
 }
 
 GameStateData::~GameStateData()
 {
 	DeleteObjects();
+
+	delete m_blinker;
+	m_blinker = nullptr;
+}
+
+void GameStateData::Update(float p_delta)
+{
+	m_blinker->Update(p_delta);
 }
 
 void GameStateData::DrawAll()
@@ -142,11 +160,12 @@ void GameStateData::DrawAll()
 	DrawPellets();
 	DrawGhosts();
 	DrawPlayer();
+	DrawHUD();
 }
 
 void GameStateData::DrawLevel()
 {
-	m_drawManagerwPtr->Draw(m_levelSpritewPtr, 0, 24);
+	m_level->Draw();
 }
 
 void GameStateData::DrawPellets()
@@ -165,7 +184,46 @@ void GameStateData::DrawPlayer()
 	m_player->Draw();
 }
 
-void GameStateData::Reset()
+void GameStateData::DrawHUD()
+{
+	for (int x = 0; x < m_lives; x++) {
+		m_drawManagerwPtr->Draw(m_extraLifeSprite, 16 + (16 * x), Config::WINDOW_HEIGHT - 16);
+	}
+
+	std::string score_string = std::to_string(m_score);
+	score_string += "0";
+
+
+	m_fontwPtr->DrawLeftAnchor(Vect2(7 * Config::TILE_SIZE, Config::TILE_SIZE), score_string);
+
+	if (m_1UP) {
+		if (m_blinker->IsShowing()) {
+			m_fontwPtr->Draw(Vect2((3 * Config::TILE_SIZE), 0), "1UP");
+		}
+	}
+
+	m_fontwPtr->Draw(Vect2(9 * Config::TILE_SIZE, 0), "HIGH SCORE");
+
+	std::string highscore_string;
+	
+	if (m_highscoreswPtr->GetHighscore()->m_score > m_score) {
+		highscore_string = std::to_string(m_highscoreswPtr->GetHighscore()->m_score);
+		highscore_string += "0";
+	}
+	else {
+		highscore_string = score_string;
+	}
+	m_fontwPtr->DrawLeftAnchor(Vect2(17 * Config::TILE_SIZE, Config::TILE_SIZE), highscore_string);
+}
+
+void GameStateData::StartGame(int p_lives)
+{
+	m_1UP = true;
+	m_lives = p_lives;
+	NextScreen();
+}
+
+void GameStateData::NextScreen()
 {
 	DeleteObjects();
 	CreateObjects();
@@ -173,6 +231,8 @@ void GameStateData::Reset()
 
 void GameStateData::Retry()
 {
+	m_lives--;
+
 	DeleteGhosts();
 	DeletePlayer();
 
@@ -180,14 +240,39 @@ void GameStateData::Retry()
 	CreateGhosts();
 }
 
+void GameStateData::CheckAgainstHighscores()
+{
+	if (m_highscoreswPtr->TryScore(m_score)) {
+		m_highscoreswPtr->AddScore(new Score(m_score));
+	}
+}
+
 void GameStateData::Exit()
 {
 	DeleteObjects();
 }
 
-void GameStateData::AddPoints(int p_points)
+bool GameStateData::IsGameOver()
+{
+	return m_lives == 0;
+}
+
+bool GameStateData::GotHighscore()
+{
+	return m_score == m_highscoreswPtr->GetHighscore()->m_score;
+}
+
+bool GameStateData::AddPoints(int p_points)
 {
 	m_score += p_points;
+
+	if (m_1UP && m_score > Config::ONE_UP_AT) {
+		m_lives++;
+		m_1UP = false;
+		m_1UPSoundwPtr->Play();
+		return true;
+	}
+	return false;
 }
 
 int GameStateData::GetScore()

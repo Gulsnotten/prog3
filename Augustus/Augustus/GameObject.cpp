@@ -18,6 +18,13 @@ Vect2 GameObject::GetScreenLocation() const
 }
 
 
+void GameObject::UpdateCollider()
+{
+	Vect2 pos = GetScreenLocation();
+	m_collider->m_rect.x = int(pos.x);
+	m_collider->m_rect.y = int(pos.y);
+}
+
 GameObject::GameObject(GameObjectData * p_data, Vect2 p_size)
 	: IAnimationAble(new AnimationController())
 {
@@ -39,9 +46,7 @@ bool GameObject::Update(float p_delta)
 {
 	m_animation->Update(p_delta);
 
-	Vect2 pos = GetScreenLocation();
-	m_collider->m_rect.x = int(pos.x);
-	m_collider->m_rect.y = int(pos.y);
+	UpdateCollider();
 
 	return false;
 }

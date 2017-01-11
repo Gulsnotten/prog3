@@ -1,14 +1,15 @@
 #pragma once
+#include "AnimationController.h"
 
 class Sprite;
 class DrawManager;
 class SpriteManager;
-class AnimationController;
 class Vect2;
 
 class IAnimationAble
 {
 public:
+	IAnimationAble();
 	IAnimationAble(AnimationController* p_animation);
 	virtual ~IAnimationAble();
 	virtual void Draw() = 0;

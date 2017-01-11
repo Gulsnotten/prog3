@@ -2,6 +2,10 @@
 #include "DrawManager.h"
 #include "Sprite.h"
 
+#include "Config.h"
+
+// credit to Leo Jansson for the scaling in DrawManager::Draw(Sprite* p_sprite, int p_x, int p_y)
+
 DrawManager::DrawManager()
 {
 }
@@ -12,7 +16,10 @@ DrawManager::~DrawManager()
 
 void DrawManager::Initialize()
 {
-	m_window = SDL_CreateWindow("Augustus", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 224, 288, 0);
+	m_window = SDL_CreateWindow("Augustus", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		Config::WINDOW_WIDTH * Config::WINDOW_SCALE,
+		Config::WINDOW_HEIGHT * Config::WINDOW_SCALE,
+		0);
 	assert(m_window != nullptr && "SDL_CreateWindow Failed");
 
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_VIDEO_OPENGL);
@@ -45,8 +52,32 @@ void DrawManager::Present()
 
 void DrawManager::Draw(Sprite* p_sprite, int p_x, int p_y)
 {
-	SDL_Rect dstRect = { p_x,p_y, p_sprite->GetSource().w, p_sprite->GetSource().h };
+	// credit to Leo Jansson for the scaling
+	SDL_Rect dstRect = {
+		p_x * Config::WINDOW_SCALE,
+		p_y * Config::WINDOW_SCALE,
+		p_sprite->GetSource().w * Config::WINDOW_SCALE,
+		p_sprite->GetSource().h * Config::WINDOW_SCALE
+	};
 	SDL_RenderCopy(m_renderer, p_sprite->GetTexture(), &p_sprite->GetSource(), &dstRect);
+}
+
+void DrawManager::Draw(Sprite * p_sprite, int p_x, int p_y, Uint8 p_r, Uint8 p_g, Uint8 p_b)
+{
+	SDL_SetTextureColorMod(p_sprite->GetTexture(), p_r, p_g, p_b);
+
+	Draw(p_sprite, p_x, p_y);
+
+	SDL_SetTextureColorMod(p_sprite->GetTexture(), 255, 255, 255);
+}
+
+void DrawManager::Draw(Sprite * p_sprite, int p_x, int p_y, SDL_Color p_color)
+{
+	Draw(p_sprite, p_x, p_y,
+		p_color.r,
+		p_color.g,
+		p_color.b
+	);
 }
 
 void DrawManager::DebugDraw(int p_x, int p_y, int p_w, int p_h)

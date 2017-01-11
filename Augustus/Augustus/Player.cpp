@@ -17,6 +17,8 @@
 #include "Level.h"
 
 #include "Config.h"
+#include "CollisionManager.h"
+#include "PowerUp.h"
 
 void Player::UpdateSound(bool p_bumped)
 {
@@ -29,22 +31,34 @@ void Player::UpdateSound(bool p_bumped)
 
 		TileType tile = level->GetTile(pos).GetType();
 
-		if (tile == TileType::Pellet ||
-			tile == TileType::Powerup)
-		{
-			if (tile == TileType::Powerup) {
-				NotifyObservers(Config::POWER_UP_MSG);
-			}
+		bool ate_pellet = false;
+		bool ate_power_up = false;
 
+		if (tile == TileType::Pellet)
+		{
+			level->ReplaceTile(pos, Tile(TileType::Empty));
+			ate_pellet = true;
+		}
+		if (m_data->m_levelwPtr->PowerUpCollision(this)) {
+			ate_power_up = true;
+		}
+		
+		if (ate_pellet || ate_power_up) {
 			if (!m_soundwPtr->IsPlaying()) {
 				m_soundwPtr->PlayLooped();
 			}
-
-			level->ReplaceTile(pos, Tile(TileType::Empty));
 		}
 		else
 		{
 			m_soundwPtr->Stop();
+		}
+
+		// do this last in case of victory
+		if (ate_pellet) {
+			NotifyObservers(Config::ATE_PELLET_MSG);
+		}
+		if (ate_power_up) {
+			NotifyObservers(Config::POWER_UP_MSG);
 		}
 	}
 }

@@ -45,6 +45,11 @@ bool PDA::Update(float p_delta)
 	return true;
 }
 
+void PDA::Draw()
+{
+	m_currentState->Draw();
+}
+
 void PDA::PushState(IState_PDA * p_state)
 {
 	m_currentState->Exit();

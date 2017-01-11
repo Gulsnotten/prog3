@@ -1,0 +1,32 @@
+	IState
+	
+I changed the return value of Update() to bool instead of void. This way the state machine can know when a state is done, by it returning false.
+
+
+	GameSession
+
+To be able to switch between the ready-screen, game-over-screen and win-screen I changed the PlayingState interface into a state machine, which holds IGameState's. I changed the name from "PlayingState" to "GameSession", and gave GameSession the states for all the different screens, including the PlayingScreen (called PlayingState).
+
+the IGameState holds a pointer to an object of IGameStateData, which holds pointers to the gameobjects used by the game. this way all the states can draw the objects, and choose which ones to draw and which ones not to draw.
+
+
+
+	GameObject -> Animationable, Collideable
+
+Since there was no need for the GameObjects' states to have access to the AnimationController, I removed it from GameObjectData. To give GameObject access to the AnimationController I created a component called IAnimationable, which holds a pointer to an object of AnimationController. I then made GameObject inherit from IAnimationable.
+
+For good structure I also made GameObject inherit from ICollideable, but it is currently not used. The original pacman calculates collision by looking at when 2 objects are standing in the same tile [insert source], which is what I've been using. For the moment I'm gonna leave ICollideable in, but I should remove it if I end up not using it at all.
+
+
+
+	Improvements to Ghost AI
+
+Since the ambusher ghost and the chaser ghost almost always goes according to the same path, I decided to improve the ambusher script. By treating the players position as a wall, it is forced to pathfind around the player if the ghost is behind it [insert image]. This works very well; now the ghosts rarely take the same path, and the player easily becomes surrounded.
+
+I also made the chaser and ambusher ghost take a stroll when they spawn, as this seems to be a thing in the original game. this is done by pathfinding to one of the top corners, and treating the player as a wall so the ghost don't walk into them for the stroll.
+
+
+	
+	Config.h
+
+most constants used in several places by the program have been moved to Config.h. This way it's easier to modify them because they are gathered in one place.

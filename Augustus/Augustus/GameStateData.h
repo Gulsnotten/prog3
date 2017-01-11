@@ -6,12 +6,20 @@
 class Level;
 class Sprite;
 struct GameObjectData;
+class Font;
+class Highscores;
+class BlinkModule;
 
 class GameStateData
 {
 private:
 	int m_score;
+	int m_lives;
+	bool m_1UP;
 	DrawManager* m_drawManagerwPtr;
+	SoundClip* m_1UPSoundwPtr;
+	Highscores* m_highscoreswPtr;
+	BlinkModule* m_blinker;
 
 	void DeleteObjects();
 	void DeleteLevel();
@@ -24,6 +32,8 @@ private:
 	void CreateGhosts();
 	void AddGhost(IRoamingState* roaming, GameObjectData* p_data);
 	GameObjectData* CreateGhostData(Vect2* p_pos);
+
+	Sprite* m_extraLifeSprite;
 public:
 	GameStateData();
 	~GameStateData();
@@ -31,19 +41,25 @@ public:
 	std::vector<Ghost*> m_ghosts;
 	Player* m_player;
 	Level* m_level;
-	Sprite* m_levelSpritewPtr;
-	
+	Font* m_fontwPtr;
 
-	void DrawAll(); // level, pellets, ghosts
+	void Update(float p_delta);
+	void DrawAll();
 	void DrawLevel();
 	void DrawPellets();
 	void DrawGhosts();
 	void DrawPlayer();
+	void DrawHUD();
 
-	void Reset();
+	void StartGame(int p_lives);
+	void NextScreen();
 	void Retry();
+	void CheckAgainstHighscores();
 	void Exit();
+
+	bool IsGameOver();
+	bool GotHighscore();
 	
-	void AddPoints(int p_points);
+	bool AddPoints(int p_points);
 	int GetScore();
 };

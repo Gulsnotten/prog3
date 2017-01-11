@@ -12,7 +12,6 @@ class WinAnimationState;
 class GameSession : public IState_PDA
 {
 private:
-	int m_lives;
 	GameStateData* m_data;
 
 	PlayingState* m_playing;
@@ -30,6 +29,7 @@ public:
 	void Exit();
 
 	PDA::PDA_ReturnFlag Update(float p_delta);
+	void Draw();
 	IState_PDA* NextState();
 };
 
