@@ -1,14 +1,13 @@
 #pragma once
-#include "IState.h"
+#include "IGhostState.h"
 #include "vect2.h"
 #include "GameObject.h"
 
 class WaitingState :
-	public IState
+	public IGhostState
 {
 private:
 	bool m_goingUp;
-	GameObjectData* m_datawPtr;
 	int m_wait;
 public:
 	WaitingState(GameObjectData* p_data);
@@ -17,7 +16,6 @@ public:
 	void Initialize(int p_wait);
 
 	bool Update(float p_delta);
-	void Draw();
 
 	Vect2 GetDirection();
 };

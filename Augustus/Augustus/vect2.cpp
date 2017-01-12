@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "vect2.h"
 
-#include "Level.h"
+#include "Config.h"
 
 const Vect2 Vect2::ZERO = Vect2(0, 0);
 const Vect2 Vect2::UP = Vect2(0, -1);
@@ -27,19 +27,6 @@ Vect2::Vect2(float p_x, float p_y) : x(p_x), y(p_y)
 
 Vect2::~Vect2()
 {
-}
-
-bool Vect2::operator==(const Vect2 & p_other)
-{
-	return (
-		x == p_other.x &&
-		y == p_other.y
-		);
-}
-
-bool Vect2::operator!=(const Vect2 & p_other)
-{
-	return !(*this == p_other);
 }
 
 Vect2 Vect2::operator+=(const Vect2 & p_other)
@@ -88,25 +75,30 @@ Vect2 Vect2::CorrectTeleport() const
 	Vect2 ret = *this;
 
 	if (ret.x < 0)
-		ret.x += Level::WIDTH;
-	if (ret.x >= Level::WIDTH)
-		ret.x -= Level::WIDTH;
+		ret.x += Config::LEVEL_WIDTH;
+	if (ret.x >= Config::LEVEL_WIDTH)
+		ret.x -= Config::LEVEL_WIDTH;
 
 	return ret;
 }
 
-
-bool operator<(const Vect2 & l, const Vect2 & r)
+bool operator==(const Vect2& p_lhs, const Vect2& p_rhs) {
+	return p_lhs.x == p_rhs.x && p_lhs.y == p_rhs.y;
+}
+bool operator!=(const Vect2& p_lhs, const Vect2& p_rhs) {
+	return !(p_lhs == p_rhs);
+}
+bool operator<(const Vect2 & p_l, const Vect2 & p_r)
 {
-	if (l.x == r.x) {
-		if (l.y == r.y) {
+	if (p_l.x == p_r.x) {
+		if (p_l.y == p_r.y) {
 			return false;
 		}
 
-		return l.y < r.y;
+		return p_l.y < p_r.y;
 	}
 
-	return l.x < r.x;
+	return p_l.x < p_r.x;
 }
 
 

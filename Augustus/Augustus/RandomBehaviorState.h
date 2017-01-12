@@ -1,5 +1,5 @@
 #pragma once
-#include "IRoamingState.h"
+#include "IGhostState.h"
 #include <vector>
 
 class AmbushState;
@@ -7,12 +7,11 @@ class ChaseState;
 class RoamAtRandom_State;
 
 class RandomBehaviorState :
-	public IRoamingState
+	public IGhostState
 {
 private:
-	std::vector<IState*> m_behaviors;
-
-	IState* m_currentState;
+	std::vector<IGhostState*> m_behaviors;
+	IGhostState* m_currentState;
 
 	void SwitchState();
 public:

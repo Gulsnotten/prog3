@@ -37,8 +37,8 @@ Vect2 RoamAtRandom_State::GetRandomDir(Vect2 p_banned)
 }
 
 RoamAtRandom_State::RoamAtRandom_State(GameObjectData* p_data)
+	: IGhostState(p_data)
 {
-	m_datawPtr = p_data;
 }
 
 RoamAtRandom_State::~RoamAtRandom_State()
@@ -80,8 +80,4 @@ bool RoamAtRandom_State::Update(float p_delta)
 	}
 
 	return !bumped;
-}
-
-void RoamAtRandom_State::Draw()
-{
 }

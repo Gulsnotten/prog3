@@ -1,15 +1,13 @@
 #pragma once
-#include "IRoamingState.h"
+#include "IGhostState.h"
 #include "GameObject.h"
 
 class Vect2;
 
 class RoamAtRandom_State :
-	public IRoamingState
+	public IGhostState
 {
 protected:
-	GameObjectData* m_datawPtr;
-
 	Vect2 GetRandomDir();
 	Vect2 GetRandomDir(Vect2 p_banned);
 public:
@@ -17,6 +15,5 @@ public:
 	virtual ~RoamAtRandom_State();
 
 	bool Update(float p_delta);
-	void Draw();
 };
 

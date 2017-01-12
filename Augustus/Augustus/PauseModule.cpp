@@ -15,9 +15,8 @@ bool PauseModule::Update(float p_delta)
 {
 	if (m_time > 0) {
 		m_time -= p_delta;
-		return true;
 	}
-	return false;
+	return IsPaused();
 }
 
 bool PauseModule::IsPaused()
@@ -28,4 +27,9 @@ bool PauseModule::IsPaused()
 void PauseModule::SetPause(float p_time)
 {
 	m_time = p_time;
+}
+
+float PauseModule::GetTime()
+{
+	return m_time;
 }

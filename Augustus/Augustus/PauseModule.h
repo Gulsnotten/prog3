@@ -11,5 +11,6 @@ public:
 	bool IsPaused();
 
 	void SetPause(float p_time);
+	float GetTime();
 };
 

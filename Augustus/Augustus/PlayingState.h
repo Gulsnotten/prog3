@@ -1,6 +1,5 @@
 #pragma once
 #include "IGameState.h"
-#include "Observer.h"
 #include <string>
 #include "PauseModule.h"
 #include <vector>
@@ -9,21 +8,29 @@ class GhostSoundPicker;
 class Animation;
 class SoundClip;
 
-class PlayingState : public IGameState, public Observer
+class PlayingState : public IGameState
 {
 private:
+	enum Food { NothingFood, PelletFood, PowerUpFood };
+
 	GhostSoundPicker* m_ghostSound;
 	PauseModule m_pause;
 	std::vector<Animation*> m_scoreAnimations;
 	Animation* m_1UPAnimation;
 	SoundClip* m_eatGhostSoundwPtr;
+	SoundClip* m_wakaSoundwPtr;
+	int m_combo;
+	bool m_hasWon;
+	bool m_wakaSwitch;
 
-	void CheckCollision();
-
+	bool CheckGhostCollision();
+	Food CheckFoodCollision();
+	
 	void Win();
 	void Lose();
-
-	int m_combo;
+	void AtePellet();
+	void AtePowerup();
+	void CheckIfWin();
 public:
 	PlayingState(GameStateData* p_data);
 	~PlayingState();
@@ -33,6 +40,4 @@ public:
 
 	void Enter();
 	void Exit();
-
-	void Notify(std::string p_msg);
 };

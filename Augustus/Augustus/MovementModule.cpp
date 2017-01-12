@@ -3,11 +3,12 @@
 
 #include "Level.h"
 #include "Tile.h"
+#include "Config.h"
 
 
 bool MovementModule::IsDirAvailable(Vect2 p_dir)
 {
-	std::vector<Vect2> available = AvailableDirections(*m_positionwPtr);
+	std::vector<Vect2> available = AvailableDirections(m_positionwPtr->Round());
 
 	for (auto a : available) {
 		if (a == p_dir)
@@ -21,23 +22,46 @@ void MovementModule::CheckWarp()
 {
 	//teleport
 	if (m_positionwPtr->x < -1)
-		m_positionwPtr->x += Level::WIDTH + 1;
-	if (m_positionwPtr->x > Level::WIDTH)
-		m_positionwPtr->x -= Level::WIDTH + 1;
+		m_positionwPtr->x += Config::LEVEL_WIDTH + 1;
+	if (m_positionwPtr->x > Config::LEVEL_WIDTH)
+		m_positionwPtr->x -= Config::LEVEL_WIDTH + 1;
 }
 
 void MovementModule::OnStep(Vect2 p_dir)
 {
+	if (p_dir == Vect2::ZERO)
+		return;
+
 	if (IsDirAvailable(p_dir)) {
 		m_direction = p_dir;
 
-		if (m_direction.x == 0) {
+		/*if (m_direction.x == 0) {
 			m_positionwPtr->x = m_positionwPtr->Round().x;
 		}
 		if (m_direction.y == 0) {
 			m_positionwPtr->y = m_positionwPtr->Round().y;
-		}
+		}*/
 	}
+}
+
+bool MovementModule::CheckLenient()
+{
+	Vect2 pos = *m_positionwPtr;
+	Vect2 rounded = pos.Round();
+
+	if (
+		abs(pos.x - rounded.x) < 0.5f
+		&& abs(pos.y - rounded.y) < 0.5f
+		)
+	{
+		return m_levelwPtr->IsIntersection((int)rounded.x, (int)rounded.y);
+	}
+
+	return false;
+}
+
+void MovementModule::CorrectOffset()
+{
 }
 
 
@@ -67,9 +91,22 @@ bool MovementModule::Update(float p_delta, Vect2 p_bufferedInput, float p_speed)
 {
 	bool bumped = false;
 
-	if (SteppedOnTile()) {
+	if (SteppedOnTile() || CheckLenient()) {
 		OnStep(p_bufferedInput);
 	}
+
+	// correct position gradually ( lenient! :^) )
+	if (m_direction != Vect2::ZERO) {
+		Vect2* pos = m_positionwPtr;
+		Vect2 rounded = pos->Round();
+		if (m_direction.x == 0) {
+			pos->GotoX(rounded.x, p_speed * p_delta);
+		}
+		else {
+			pos->GotoY(rounded.y, p_speed * p_delta);
+		}
+	}
+
 
 	//turn around
 	if (p_bufferedInput + m_direction == Vect2::ZERO) {
@@ -89,7 +126,7 @@ bool MovementModule::Update(float p_delta, Vect2 p_bufferedInput, float p_speed)
 	Vect2 facing_tile = new_pos.Round() + m_direction;
 	facing_tile.Round();
 
-	if (m_levelwPtr->GetTile(facing_tile).collision()) {
+	if (m_levelwPtr->GetTile(facing_tile)->collision()) {
 		float dis_y = new_pos.x - facing_tile.x;
 		float dis_x = new_pos.y - facing_tile.y;
 		if (std::sqrt((dis_x * dis_x) + (dis_y * dis_y)) <= 1) {
@@ -110,14 +147,13 @@ bool MovementModule::Update(float p_delta, Vect2 p_bufferedInput, float p_speed)
 			start_pos.Floor() != m_positionwPtr->Floor() ||
 			m_direction == Vect2::ZERO)
 		{
-
 			m_steppedOnTile = true;
 		}
 	}
 	else
 		m_steppedOnTile = false;
 
-	if (m_positionwPtr->x < 0 || m_positionwPtr->x >= m_levelwPtr->WIDTH - 1)
+	if (m_positionwPtr->x < 0 || m_positionwPtr->x >=Config::LEVEL_WIDTH - 1)
 		m_steppedOnTile = false;
 
 	CheckWarp();

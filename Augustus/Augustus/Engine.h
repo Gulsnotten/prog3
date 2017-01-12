@@ -1,4 +1,5 @@
 #pragma once
+#include "FPS_Helper.h"
 
 class DrawManager;
 class SpriteManager;
@@ -15,7 +16,7 @@ public:
 	void Initialize(); // Create all manager, initialize SDL
 	void Shutdown(); // Delete all managers, shutdown SDL
 	void Run(); // Handle all events, calculate delta, update the GAME
-	
+	FPS_Helper m_FPShelper;
 private:
 	void HandleEvents(); // Handles all events from SDL_Pollevents
 	void CalculateDeltatime(); // Calculates the time in ms between this and the last

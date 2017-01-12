@@ -2,6 +2,7 @@
 #include "PathFinderModule.h"
 
 #include "Level.h"
+#include "Config.h"
 
 PathFinderModule::PathFinderModule(Level * p_level)
 	: m_levelwPtr(p_level)
@@ -32,9 +33,9 @@ void PathFinderModule::UpdatePath(Vect2 p_target, std::vector<Vect2> p_banned_po
 
 	m_heatMap.clear();
 
-	for (int y = 0; y < Level::HEIGHT; y++) {
+	for (int y = 0; y < Config::LEVEL_HEIGHT; y++) {
 		m_heatMap.push_back(std::vector<int>());
-		for (int x = 0; x < Level::WIDTH; x++) {
+		for (int x = 0; x < Config::LEVEL_WIDTH; x++) {
 			m_heatMap.back().push_back(999999);
 		}
 	}

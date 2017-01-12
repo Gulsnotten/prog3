@@ -9,12 +9,16 @@
 #include <iostream>
 
 #include "PacmanGame.h"
+#include "FPS_Helper.h"
 
 #include <random>
 #include <time.h>
 
 
-Engine::Engine() : m_drawManager(nullptr), m_spriteManager(nullptr), m_stateManager(nullptr), m_inputManager(nullptr), m_running(true), m_lastTick(0)
+Engine::Engine()
+	: m_drawManager(nullptr), m_spriteManager(nullptr),
+	m_stateManager(nullptr), m_inputManager(nullptr),
+	m_running(true), m_lastTick(0)
 {
 	assert(SDL_Init(SDL_INIT_EVERYTHING) == 0 && "SDL_Init Failed");
 	assert(Mix_Init(MIX_INIT_OGG) != 0 && "Mix_Init Failed");
@@ -92,9 +96,11 @@ void Engine::Run()
 
 		m_inputManager->Update();
 		m_drawManager->Present();
-		SDL_Delay(10);
+
+		m_FPShelper.Update(m_delta);
 	}
-};
+}
+
 
 void Engine::HandleEvents()
 {

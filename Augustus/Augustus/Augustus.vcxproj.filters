@@ -73,12 +73,6 @@
     <Filter Include="Source Files\Pacman">
       <UniqueIdentifier>{8696d28a-9bdb-4f53-93ed-ff627d1cc829}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Pacman\PDA">
-      <UniqueIdentifier>{b052801c-1aaf-4b22-ba16-2254d9b68c04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Pacman\PDA">
-      <UniqueIdentifier>{238b66cb-4e9f-48d0-b449-a01eb5fcedca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Pacman\GameObject">
       <UniqueIdentifier>{0fef0cee-6cfd-4009-ae80-7f6d5d05ba0a}</UniqueIdentifier>
     </Filter>
@@ -93,12 +87,6 @@
     </Filter>
     <Filter Include="Header Files\Pacman\Animation">
       <UniqueIdentifier>{2bffecbe-eb4c-4233-b72f-b72d4d582800}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Pacman\Observer">
-      <UniqueIdentifier>{64c3e4b0-38ab-4ad4-8291-392bb2e2302c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Pacman\Observer">
-      <UniqueIdentifier>{6f1027b2-93a2-4adb-b6e4-ec1b56b05d95}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Pacman\GameObject\ConcreteObjects">
       <UniqueIdentifier>{e90835fc-cd8b-4897-ba28-14ef70c46d9a}</UniqueIdentifier>
@@ -195,15 +183,6 @@
     <ClInclude Include="IGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PDA.h">
-      <Filter>Header Files\Pacman\PDA</Filter>
-    </ClInclude>
-    <ClInclude Include="IState_PDA.h">
-      <Filter>Header Files\Pacman\PDA</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleScreenState.h">
-      <Filter>Header Files\Pacman</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Header Files\Pacman</Filter>
     </ClInclude>
@@ -220,9 +199,6 @@
       <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
     </ClInclude>
     <ClInclude Include="ChaseState.h">
-      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
-    </ClInclude>
-    <ClInclude Include="FleeingState.h">
       <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
     </ClInclude>
     <ClInclude Include="RandomBehaviorState.h">
@@ -261,12 +237,6 @@
     <ClInclude Include="GhostSoundPicker.h">
       <Filter>Header Files\Pacman</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files\Pacman\Observer</Filter>
-    </ClInclude>
-    <ClInclude Include="Subject.h">
-      <Filter>Header Files\Pacman\Observer</Filter>
-    </ClInclude>
     <ClInclude Include="Config.h">
       <Filter>Header Files\Pacman</Filter>
     </ClInclude>
@@ -290,9 +260,6 @@
     </ClInclude>
     <ClInclude Include="IAnimationAble.h">
       <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="IRoamingState.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayingState.h">
       <Filter>Header Files\Pacman\GameLoop</Filter>
@@ -330,13 +297,31 @@
     <ClInclude Include="Score.h">
       <Filter>Header Files\Pacman\Highscores</Filter>
     </ClInclude>
-    <ClInclude Include="HighscoreScreenState.h">
-      <Filter>Header Files\Pacman</Filter>
-    </ClInclude>
     <ClInclude Include="GameSession.h">
       <Filter>Header Files\Pacman</Filter>
     </ClInclude>
     <ClInclude Include="BlinkModule.h">
+      <Filter>Header Files\Pacman</Filter>
+    </ClInclude>
+    <ClInclude Include="AttractScreenState.h">
+      <Filter>Header Files\Pacman\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreScreenState.h">
+      <Filter>Header Files\Pacman\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="FPS_Helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScatterState.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FleeingBehavior.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
+    </ClInclude>
+    <ClInclude Include="IGhostState.h">
+      <Filter>Header Files\Pacman\GameObject\ConcreteObjects\States</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelModifier.h">
       <Filter>Header Files\Pacman</Filter>
     </ClInclude>
   </ItemGroup>
@@ -404,15 +389,6 @@
     <ClCompile Include="IGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PDA.cpp">
-      <Filter>Source Files\Pacman\PDA</Filter>
-    </ClCompile>
-    <ClCompile Include="IState_PDA.cpp">
-      <Filter>Source Files\Pacman\PDA</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleScreenState.cpp">
-      <Filter>Source Files\Pacman</Filter>
-    </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Pacman</Filter>
     </ClCompile>
@@ -444,9 +420,6 @@
       <Filter>Source Files\Pacman\GameObject\States</Filter>
     </ClCompile>
     <ClCompile Include="ExitState.cpp">
-      <Filter>Source Files\Pacman\GameObject\States</Filter>
-    </ClCompile>
-    <ClCompile Include="FleeingState.cpp">
       <Filter>Source Files\Pacman\GameObject\States</Filter>
     </ClCompile>
     <ClCompile Include="RandomBehaviorState.cpp">
@@ -488,17 +461,8 @@
     <ClCompile Include="GhostSoundPicker.cpp">
       <Filter>Source Files\Pacman</Filter>
     </ClCompile>
-    <ClCompile Include="Observer.cpp">
-      <Filter>Source Files\Pacman\Observer</Filter>
-    </ClCompile>
-    <ClCompile Include="Subject.cpp">
-      <Filter>Source Files\Pacman\Observer</Filter>
-    </ClCompile>
     <ClCompile Include="IAnimationAble.cpp">
       <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="IRoamingState.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameSession.cpp">
       <Filter>Source Files\Pacman</Filter>
@@ -536,9 +500,6 @@
     <ClCompile Include="DeathAnimationState.cpp">
       <Filter>Source Files\Pacman\GameLoop</Filter>
     </ClCompile>
-    <ClCompile Include="HighscoreScreenState.cpp">
-      <Filter>Source Files\Pacman</Filter>
-    </ClCompile>
     <ClCompile Include="PauseModule.cpp">
       <Filter>Source Files\Pacman</Filter>
     </ClCompile>
@@ -547,6 +508,27 @@
     </ClCompile>
     <ClCompile Include="GameObjectData.cpp">
       <Filter>Source Files\Pacman\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreScreenState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttractScreenState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FPS_Helper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScatterState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FleeingBehavior.cpp">
+      <Filter>Source Files\Pacman\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="IGhostState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelModifier.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

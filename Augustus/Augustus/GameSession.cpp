@@ -7,8 +7,8 @@
 #include "StartAnimationState.h"
 #include "DeathAnimationState.h"
 #include "WinAnimationState.h"
-
-#include "HighscoreScreenState.h"
+#include "ScoreScreenState.h"
+#include "AttractScreenState.h"
 
 #include "Config.h"
 
@@ -23,41 +23,36 @@ void GameSession::SwitchState(IGameState * p_state)
 GameSession::GameSession()
 {
 	m_data = new GameStateData();
-
 	m_data->StartGame(Config::START_EXTRA_LIFE);
 
 	m_playing = new PlayingState(m_data);
 	m_startAnimation = new StartAnimationState(m_data);
 	m_deathAnimation = new DeathAnimationState(m_data);
 	m_winAnimation = new WinAnimationState(m_data);
-	SwitchState(m_startAnimation);
+	m_scoreScreen = new ScoreScreenState(m_data);
+	m_attractScreen = new AttractScreenState(m_data);
+	SwitchState(m_attractScreen);
 }
 
 
 GameSession::~GameSession()
 {
 	m_currentStatewPtr->Exit();
-
 	m_data->Exit();
 
 	delete m_data;
 	m_data = nullptr;
 
 	delete m_playing;
-	m_playing = nullptr;
-}
-
-void GameSession::Enter()
-{
-}
-
-void GameSession::Exit()
-{
-	m_currentStatewPtr->Exit();
+	delete m_startAnimation;
+	delete m_deathAnimation;
+	delete m_winAnimation;
+	delete m_scoreScreen;
+	delete m_attractScreen;
 }
 
 
-PDA::PDA_ReturnFlag GameSession::Update(float p_delta)
+bool GameSession::Update(float p_delta)
 {
 	bool ret = m_currentStatewPtr->Update(p_delta);
 	m_data->Update(p_delta);
@@ -81,25 +76,26 @@ PDA::PDA_ReturnFlag GameSession::Update(float p_delta)
 			}
 			else {
 				m_data->CheckAgainstHighscores();
-
-				return PDA::PDA_ReturnFlag::Switch;
+				SwitchState(m_scoreScreen);
 			}
 		}
 		else if (m_currentStatewPtr == m_winAnimation) {
 			m_data->NextScreen();
 			SwitchState(m_startAnimation);
 		}
+		else if (m_currentStatewPtr == m_scoreScreen) {
+			m_data->StartGame(Config::START_EXTRA_LIFE); // do it here to reset HUD
+			SwitchState(m_attractScreen);
+		}
+		else if (m_currentStatewPtr == m_attractScreen) {
+			SwitchState(m_startAnimation);
+		}
 	}
 
-	return PDA::PDA_ReturnFlag::Keep;
+	return true;
 }
 
 void GameSession::Draw()
 {
 	m_currentStatewPtr->Draw();
-}
-
-IState_PDA * GameSession::NextState()
-{
-	return new HighscoreScreenState(m_data->GetScore());
 }

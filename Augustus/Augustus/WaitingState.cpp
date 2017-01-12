@@ -8,8 +8,8 @@
 
 
 WaitingState::WaitingState(GameObjectData* p_data)
+	: IGhostState(p_data)
 {
-	m_datawPtr = p_data;
 	m_wait = 0;
 	m_goingUp = true;
 }
@@ -27,8 +27,8 @@ bool WaitingState::Update(float p_delta)
 {
 	Vect2* pos = m_datawPtr->m_pos;
 
-	float top = Level::HOUSE_Y + 0.5f;
-	float bottom = Level::HOUSE_Y - 0.5f;
+	float top = Config::HOUSE_Y + 0.5f;
+	float bottom = Config::HOUSE_Y - 0.5f;
 
 	if (m_goingUp) {
 		if (pos->y == top) {
@@ -50,10 +50,6 @@ bool WaitingState::Update(float p_delta)
 	}
 
 	return (m_wait > 0);
-}
-
-void WaitingState::Draw()
-{
 }
 
 Vect2 WaitingState::GetDirection()

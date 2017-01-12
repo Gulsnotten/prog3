@@ -20,49 +20,6 @@
 #include "CollisionManager.h"
 #include "PowerUp.h"
 
-void Player::UpdateSound(bool p_bumped)
-{
-	if (p_bumped) {
-		m_soundwPtr->Stop();
-	}
-	else {
-		Vect2 pos = m_data->m_pos->Round();
-		Level* level = m_data->m_levelwPtr;
-
-		TileType tile = level->GetTile(pos).GetType();
-
-		bool ate_pellet = false;
-		bool ate_power_up = false;
-
-		if (tile == TileType::Pellet)
-		{
-			level->ReplaceTile(pos, Tile(TileType::Empty));
-			ate_pellet = true;
-		}
-		if (m_data->m_levelwPtr->PowerUpCollision(this)) {
-			ate_power_up = true;
-		}
-		
-		if (ate_pellet || ate_power_up) {
-			if (!m_soundwPtr->IsPlaying()) {
-				m_soundwPtr->PlayLooped();
-			}
-		}
-		else
-		{
-			m_soundwPtr->Stop();
-		}
-
-		// do this last in case of victory
-		if (ate_pellet) {
-			NotifyObservers(Config::ATE_PELLET_MSG);
-		}
-		if (ate_power_up) {
-			NotifyObservers(Config::POWER_UP_MSG);
-		}
-	}
-}
-
 void Player::UpdateInput()
 {
 	Vect2 dir = Vect2::ZERO;
@@ -86,20 +43,17 @@ Player::Player(GameObjectData * p_data)
 {
 	m_data = p_data;
 
-	m_inputwPtr = ServiceLocator<InputManager>::GetService();
+ 	m_inputwPtr = ServiceLocator<InputManager>::GetService();
 
 	m_animationswPtr = ServiceLocator<PlayerAnimations>::GetService();
 	m_animation->SetAnimation(m_animationswPtr->Still);
 
 	SoundManager* soundManager = ServiceLocator<SoundManager>::GetService();
-	m_soundwPtr = soundManager->CreateSound("../Assets/sound/waka.wav");
 }
 
 Player::~Player()
 {
 	GameObject::~GameObject();
-
-	m_soundwPtr->Stop();
 }
 
 bool Player::Update(float p_delta)
@@ -110,10 +64,6 @@ bool Player::Update(float p_delta)
 
 	bool bumped = m_data->m_movement->Update(p_delta, m_inputBuffer, float(Config::MOVEMENT_SPEED));
 
-	if (m_data->m_movement->SteppedOnTile()){
-		UpdateSound(bumped);
-	}
-
 	Vect2 currentdir = m_data->m_movement->GetDirection();
 	Animation* next_animation = nullptr;
 
@@ -121,25 +71,24 @@ bool Player::Update(float p_delta)
 		next_animation = m_animationswPtr->Still;
 	}
 	else if (bumped) {
-			next_animation = m_animationswPtr->GetStoppedAnimation(currentdir);
+		next_animation = m_animationswPtr->GetStoppedAnimation(currentdir);
 	}
 	else {
 		next_animation = m_animationswPtr->GetAnimation(currentdir);
 	}
 	m_animation->SetAnimation(next_animation);
 
-	return false;
+	return bumped;
+}
+
+bool Player::SteppedOnTile()
+{
+	return m_data->m_movement->SteppedOnTile();
 }
 
 void Player::Kill()
 {
 	m_isDead = true;
-	m_soundwPtr->Stop();
-}
-
-void Player::StopSound()
-{
-	m_soundwPtr->Stop();
 }
 
 bool Player::IsDead()

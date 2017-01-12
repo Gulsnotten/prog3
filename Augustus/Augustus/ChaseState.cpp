@@ -8,7 +8,7 @@
 
 
 ChaseState::ChaseState(GameObjectData* p_data, Vect2* p_target)
-	: m_datawPtr(p_data), m_targetwPtr(p_target)
+	: IGhostState(p_data), m_targetwPtr(p_target)
 {
 	m_pathfinder = new PathFinderModule(m_datawPtr->m_levelwPtr);
 
@@ -26,16 +26,13 @@ void ChaseState::Enter()
 	m_pathfinder->UpdatePath(*m_targetwPtr);
 }
 
-void ChaseState::OnSpawn()
-{
-	m_pathfinder->UpdatePath(Vect2(1, 1), *m_targetwPtr);
-}
-
 bool ChaseState::Update(float p_delta)
 {
 	Vect2* pos = m_datawPtr->m_pos;
 
-	Vect2 nextDir = m_pathfinder->GetNextDir(*pos);
+	Vect2 nextDir = Vect2::ZERO;
+	if (m_datawPtr->m_movement->SteppedOnTile())
+		nextDir = m_pathfinder->GetNextDir(*pos);
 
 	m_datawPtr->m_movement->Update(p_delta, nextDir, (float)Config::MOVEMENT_SPEED);
 
@@ -46,8 +43,4 @@ bool ChaseState::Update(float p_delta)
 	}
 
 	return true;
-}
-
-void ChaseState::Draw()
-{
 }

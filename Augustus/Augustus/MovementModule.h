@@ -18,6 +18,9 @@ private:
 	void CheckWarp();
 
 	void OnStep(Vect2 p_dir);
+
+	bool CheckLenient();
+	void CorrectOffset();
 public:
 	MovementModule(Level* p_level, Vect2* p_pos);
 	MovementModule(Level* p_level, Vect2* p_pos, Vect2 p_dir);

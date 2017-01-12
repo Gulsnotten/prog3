@@ -21,19 +21,17 @@ Vect2 GameObject::GetScreenLocation() const
 void GameObject::UpdateCollider()
 {
 	Vect2 pos = GetScreenLocation();
-	m_collider->m_rect.x = int(pos.x);
-	m_collider->m_rect.y = int(pos.y);
+	m_collider->m_rect.x = int(pos.x + Config::TILE_SIZE / 2);
+	m_collider->m_rect.y = int(pos.y + Config::TILE_SIZE / 2);
 }
 
 GameObject::GameObject(GameObjectData * p_data, Vect2 p_size)
 	: IAnimationAble(new AnimationController())
 {
 	m_data = p_data;
-	m_collider = new Collider();
-	m_collider->m_rect.x = int(p_data->m_pos->x);
-	m_collider->m_rect.y = int(p_data->m_pos->y);
-	m_collider->m_rect.w = int(p_size.x);
-	m_collider->m_rect.h = int(p_size.y);
+	m_collider->m_rect.w = (int)p_size.x;
+	m_collider->m_rect.h = (int)p_size.y;
+	UpdateCollider();
 }
 
 GameObject::~GameObject()

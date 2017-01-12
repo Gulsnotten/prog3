@@ -62,6 +62,18 @@ void DrawManager::Draw(Sprite* p_sprite, int p_x, int p_y)
 	SDL_RenderCopy(m_renderer, p_sprite->GetTexture(), &p_sprite->GetSource(), &dstRect);
 }
 
+void DrawManager::Draw(Sprite * p_sprite, float p_x, float p_y)
+{
+	// credit to Leo Jansson for the scaling
+	SDL_Rect dstRect = {
+		int(p_x * Config::WINDOW_SCALE),
+		int(p_y * Config::WINDOW_SCALE),
+		p_sprite->GetSource().w * Config::WINDOW_SCALE,
+		p_sprite->GetSource().h * Config::WINDOW_SCALE
+	};
+	SDL_RenderCopy(m_renderer, p_sprite->GetTexture(), &p_sprite->GetSource(), &dstRect);
+}
+
 void DrawManager::Draw(Sprite * p_sprite, int p_x, int p_y, Uint8 p_r, Uint8 p_g, Uint8 p_b)
 {
 	SDL_SetTextureColorMod(p_sprite->GetTexture(), p_r, p_g, p_b);

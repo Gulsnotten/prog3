@@ -12,12 +12,9 @@ public:
 	Vect2(float p_x, float p_y);
 	~Vect2();
 
-	bool operator==(const Vect2& p_other);
-	bool operator!=(const Vect2& p_other);
-	//bool operator<(const Vect2& p_other);
-	//bool operator>(const Vect2& p_other);
-
-	friend bool operator<(const Vect2& l, const Vect2& r);
+	friend bool operator==(const Vect2& p_lhs, const Vect2& p_rhs);
+	friend bool operator!=(const Vect2& p_lhs, const Vect2& p_rhs);
+	friend bool operator<(const Vect2& p_l, const Vect2& p_r);
 
 	Vect2 operator+=(const Vect2& p_other);
 	Vect2 operator-=(const Vect2& p_other);
@@ -42,3 +39,22 @@ public:
 	static const std::vector<Vect2> ALL_DIRECTIONS;
 };
 
+
+/*
+taken from tutorial
+http://en.cppreference.com/w/cpp/utility/hash
+*/
+
+namespace std
+{
+	template<> struct hash<Vect2>
+	{
+		std::size_t operator()(Vect2 const& p_v) const
+		{
+			std::size_t const h1(std::hash<float>{}(p_v.x));
+			std::size_t const h2(std::hash<float>{}(p_v.y));
+			
+			return h1 ^ (h2 << 1); // or use boost::hash_combine
+		}
+	};
+}

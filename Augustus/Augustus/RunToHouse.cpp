@@ -10,8 +10,9 @@
 const Vect2 RunToHouseState::FRONT_OF_HOUSE = Vect2(14, 11);
 
 RunToHouseState::RunToHouseState(GameObjectData* p_data)
+	: IGhostState(p_data)
 {
-	m_datawPtr = p_data;
+	m_startHouseX = m_datawPtr->m_pos->x;
 
 	m_pathfinder = new PathFinderModule(m_datawPtr->m_levelwPtr);
 	m_pathfinder->UpdatePath(FRONT_OF_HOUSE);
@@ -26,6 +27,7 @@ RunToHouseState::~RunToHouseState()
 bool RunToHouseState::Update(float p_delta)
 {
 	float speed = Config::MOVEMENT_SPEED_FAST;
+	float center = Config::LEVEL_CENTER;
 
 	Vect2* pos = m_datawPtr->m_pos;
 
@@ -36,32 +38,55 @@ bool RunToHouseState::Update(float p_delta)
 	}
 
 	if (m_done) {
-		if (pos->x == Level::CENTER) {
-			if (pos->y == Level::HOUSE_Y) {
+		if (pos->y == Config::HOUSE_Y) {
+			if (pos->x != m_startHouseX) {
+				pos->GotoX(m_startHouseX, speed * p_delta);
+
+				if (m_startHouseX > center) {
+					m_dir = Vect2::RIGHT;
+				}
+				else {
+					m_dir = Vect2::LEFT;
+				}
+			}
+			else {
 				return false;
 			}
-			else
-			{
-				pos->GotoY(Level::HOUSE_Y, speed * p_delta);
-			}
+		}
+		else if (pos->x == center) {
+			pos->GotoY((float)Config::HOUSE_Y, speed * p_delta);
+
+			m_dir == Vect2::DOWN;
 		}
 		else {
-			pos->GotoX(Level::CENTER, speed * p_delta);
+			pos->GotoX(center, speed * p_delta);
+
+			if (pos->x > center) {
+				m_dir = Vect2::LEFT;
+			}
+			else if (pos->x < center) {
+				m_dir = Vect2::RIGHT;
+			}
+			else {
+				m_dir = Vect2::DOWN;
+			}
 		}
 	}
 	else
 	{
 		m_datawPtr->m_movement->Update(p_delta, m_pathfinder->GetNextDir(*pos), speed);
+		m_dir = m_datawPtr->m_movement->GetDirection();
 	}
 
 	return true;
 }
 
-void RunToHouseState::Draw()
-{
-}
-
 void RunToHouseState::Enter()
 {
 	m_done = false;
+}
+
+Vect2 RunToHouseState::GetDirection()
+{
+	return m_dir;
 }

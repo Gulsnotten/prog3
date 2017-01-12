@@ -35,7 +35,7 @@ void TextFileManipulator::WriteFile(std::string p_file, const std::vector<std::s
 
 	//file.clear();
 
-	int i = 0;
+	unsigned int i = 0;
 	for (auto s : p_data) {
 		file << s;
 		i++;

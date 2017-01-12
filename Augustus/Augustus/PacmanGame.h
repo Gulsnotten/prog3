@@ -1,7 +1,7 @@
 #pragma once
 #include "IGame.h"
 
-class PDA;
+class GameSession;
 class GhostAnimations;
 class PlayerAnimations;
 class Font;
@@ -10,7 +10,7 @@ class Highscores;
 class PacmanGame : public IGame
 {
 private:
-	PDA* m_GamePDA;
+	GameSession* m_GameFSM;
 
 	GhostAnimations* m_ghostAnimations;
 	PlayerAnimations* m_playerAnimations;

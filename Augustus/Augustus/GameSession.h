@@ -1,5 +1,4 @@
 #pragma once
-#include "IState_PDA.h"
 #include <vector>
 
 class GameStateData;
@@ -8,8 +7,10 @@ class PlayingState;
 class StartAnimationState;
 class DeathAnimationState;
 class WinAnimationState;
+class ScoreScreenState;
+class AttractScreenState;
 
-class GameSession : public IState_PDA
+class GameSession
 {
 private:
 	GameStateData* m_data;
@@ -18,6 +19,8 @@ private:
 	StartAnimationState* m_startAnimation;
 	DeathAnimationState* m_deathAnimation;
 	WinAnimationState* m_winAnimation;
+	ScoreScreenState* m_scoreScreen;
+	AttractScreenState* m_attractScreen;
 	IGameState* m_currentStatewPtr;
 
 	void SwitchState(IGameState* p_state);
@@ -25,11 +28,7 @@ public:
 	GameSession();
 	~GameSession();
 
-	void Enter();
-	void Exit();
-
-	PDA::PDA_ReturnFlag Update(float p_delta);
+	bool Update(float p_delta);
 	void Draw();
-	IState_PDA* NextState();
 };
 

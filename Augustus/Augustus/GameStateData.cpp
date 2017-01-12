@@ -66,7 +66,7 @@ void GameStateData::CreateLevel()
 
 void GameStateData::CreatePlayer()
 {
-	Vect2* player_pos = new Vect2(Level::CENTER, 23.0f);
+	Vect2* player_pos = new Vect2(Config::LEVEL_CENTER, 23.0f);
 	m_player = new Player(
 		new GameObjectData(
 			player_pos,
@@ -80,37 +80,38 @@ void GameStateData::CreateGhosts()
 	GameObjectData* data = nullptr;
 
 	//red chaser
-	data = CreateGhostData(new Vect2(Level::CENTER, Level::HOUSE_EXIT_Y));
-	AddGhost(new ChaseState(data, m_player->GetPos()), data);
+	data = CreateGhostData(new Vect2((float)Config::LEVEL_CENTER, (float)Config::HOUSE_EXIT_Y));
+	AddGhost(new ChaseState(data, m_player->GetPos()), data, Vect2::LEFT);
 
 	//pink ambusher
-	data = CreateGhostData(new Vect2(Level::CENTER, Level::HOUSE_Y));
-	AddGhost(new AmbushState(data, m_player), data);
+	data = CreateGhostData(new Vect2((float)Config::LEVEL_CENTER, (float)Config::HOUSE_Y));
+	AddGhost(new AmbushState(data, m_player), data, Vect2::DOWN);
 
 	//oblivious
-	data = CreateGhostData(new Vect2(Level::CENTER - 2, Level::HOUSE_Y));
+	data = CreateGhostData(new Vect2((float)Config::LEVEL_CENTER - 2, (float)Config::HOUSE_Y));
 	AddGhost(new RandomBehaviorState(
 		new AmbushState(data, m_player),
 		new ChaseState(data, m_player->GetPos()),
 		new RoamAtRandom_State(data)),
-		data);
+		data, Vect2::UP);
 
 	//random boi
-	data = CreateGhostData(new Vect2(Level::CENTER + 2, Level::HOUSE_Y));
-	AddGhost(new RoamAtRandom_State(data), data);
+	data = CreateGhostData(new Vect2((float)Config::LEVEL_CENTER + 2, (float)Config::HOUSE_Y));
+	AddGhost(new RoamAtRandom_State(data), data, Vect2::UP);
 
 	for (unsigned int i = 1; i < m_ghosts.size(); i++) {
-		m_ghosts[i]->StartWaiting(i * Config::SPAWN_TIME);
+		m_ghosts[i]->StartWaiting((i - 1) * Config::SPAWN_TIME);
 	}
 }
 
-void GameStateData::AddGhost(IRoamingState * roaming, GameObjectData * p_data)
+void GameStateData::AddGhost(IState * roaming, GameObjectData * p_data, Vect2 p_dir)
 {
 	Ghost* ghost = new Ghost(
 		p_data,
 		roaming,
 		m_player->GetPos(),
-		m_ghosts.size()
+		m_ghosts.size(),
+		p_dir
 	);
 
 	m_ghosts.push_back(ghost);
@@ -127,7 +128,6 @@ GameObjectData * GameStateData::CreateGhostData(Vect2 * p_pos)
 
 GameStateData::GameStateData()
 {
-	m_score = 0;
 	SpriteManager* spriteManager = ServiceLocator<SpriteManager>::GetService();
 	m_drawManagerwPtr = ServiceLocator<DrawManager>::GetService();
 	m_fontwPtr = ServiceLocator<Font>::GetService();
@@ -157,7 +157,6 @@ void GameStateData::Update(float p_delta)
 void GameStateData::DrawAll()
 {
 	DrawLevel();
-	DrawPellets();
 	DrawGhosts();
 	DrawPlayer();
 	DrawHUD();
@@ -166,11 +165,6 @@ void GameStateData::DrawAll()
 void GameStateData::DrawLevel()
 {
 	m_level->Draw();
-}
-
-void GameStateData::DrawPellets()
-{
-	m_level->DrawPellets(0, 24);
 }
 
 void GameStateData::DrawGhosts()
@@ -194,11 +188,11 @@ void GameStateData::DrawHUD()
 	score_string += "0";
 
 
-	m_fontwPtr->DrawLeftAnchor(Vect2(7 * Config::TILE_SIZE, Config::TILE_SIZE), score_string);
+	m_fontwPtr->DrawLeftAnchor(Vect2(float(7 * Config::TILE_SIZE), float(Config::TILE_SIZE)), score_string);
 
 	if (m_1UP) {
 		if (m_blinker->IsShowing()) {
-			m_fontwPtr->Draw(Vect2((3 * Config::TILE_SIZE), 0), "1UP");
+			m_fontwPtr->Draw(Vect2(float(3 * Config::TILE_SIZE), 0.0f), "1UP");
 		}
 	}
 
@@ -213,11 +207,12 @@ void GameStateData::DrawHUD()
 	else {
 		highscore_string = score_string;
 	}
-	m_fontwPtr->DrawLeftAnchor(Vect2(17 * Config::TILE_SIZE, Config::TILE_SIZE), highscore_string);
+	m_fontwPtr->DrawLeftAnchor(Vect2(float(17 * Config::TILE_SIZE), (float)Config::TILE_SIZE), highscore_string);
 }
 
 void GameStateData::StartGame(int p_lives)
 {
+	m_score = 0;
 	m_1UP = true;
 	m_lives = p_lives;
 	NextScreen();

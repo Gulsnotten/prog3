@@ -33,7 +33,7 @@ bool AnimationController::Update(float p_delta)
 
 void AnimationController::Draw(Vect2 p_pos)
 {
-	m_drawManagerwPtr->Draw(m_animation->GetSprite((int)m_animationPos), (int)p_pos.x, (int)p_pos.y);
+	m_drawManagerwPtr->Draw(m_animation->GetSprite((int)m_animationPos), p_pos.x, p_pos.y);
 }
 
 void AnimationController::SetAnimation(Animation* p_animation)

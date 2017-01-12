@@ -30,7 +30,7 @@ private:
 	void CreateLevel();
 	void CreatePlayer();
 	void CreateGhosts();
-	void AddGhost(IRoamingState* roaming, GameObjectData* p_data);
+	void AddGhost(IState* roaming, GameObjectData* p_data, Vect2 p_dir);
 	GameObjectData* CreateGhostData(Vect2* p_pos);
 
 	Sprite* m_extraLifeSprite;
@@ -46,7 +46,6 @@ public:
 	void Update(float p_delta);
 	void DrawAll();
 	void DrawLevel();
-	void DrawPellets();
 	void DrawGhosts();
 	void DrawPlayer();
 	void DrawHUD();

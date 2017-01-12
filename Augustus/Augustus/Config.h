@@ -5,13 +5,12 @@
 namespace Config {
 	
 	static const std::string
-		POWER_UP_MSG = "POWER_UP",
-		ATE_PELLET_MSG = "ATE_PELLET",
 		SCORE_PATH = "../Assets/highscores.txt"
 		;
 	static const int
 		MOVEMENT_SPEED = 8,
 		MOVEMENT_SPEED_SLOW = 4,
+		MOVEMENT_SPEED_EXIT_HOUSE = 4,
 		MOVEMENT_SPEED_FAST = 16,
 		SPAWN_TIME = 15,
 		FLEEING_TIME = 4,
@@ -28,7 +27,7 @@ namespace Config {
 		WINDOW_HEIGHT = 288,
 		WINDOW_SCALE = 3,
 
-		START_EXTRA_LIFE = 0,
+		START_EXTRA_LIFE = 1,
 
 		POINT_PELLET = 1,
 		POINT_POWER_UP = 5,
@@ -36,12 +35,20 @@ namespace Config {
 		ONE_UP_AT = 1000,
 
 		MAX_SCORES = 5,
-		START_SCORE = 100
+		START_SCORE = 100,
+
+		LEVEL_WIDTH = 28,
+		LEVEL_HEIGHT = 31,
+		HOUSE_Y = 14,
+		HOUSE_EXIT_Y = 11,
+
+		ENERGIZER_STOP_AT = 5
 		;
 	static const float
 		PAUSE_TIME = 1.0f,
 		WIN_PAUSE_TIME = 1.0f,
 		WIN_ANIMATION_LENGTH = 2.0f,
-		TEXT_FLASH_SPEED = 0.25f
+		TEXT_FLASH_SPEED = 0.25f,
+		LEVEL_CENTER = LEVEL_WIDTH / 2.0f - 0.5f
 		;
 }

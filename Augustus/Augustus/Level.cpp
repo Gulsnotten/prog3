@@ -20,31 +20,25 @@
 #include "Config.h"
 
 #include "CollisionManager.h"
-
-const int	Level::WIDTH = 28,
-			Level::HEIGHT = 31;
-			
-const float Level::CENTER = WIDTH / 2.0f - 0.5f,
-			Level::HOUSE_Y = 14,
-			Level::HOUSE_EXIT_Y = 11;
+#include "Player.h"
 
 
-Tile Level::charToTile(char c)
+Tile* Level::charToTile(char c, int p_x, int p_y)
 {
 	assert(c == 'w' || c == ' ' || c == '.' || c == 'P');
 
 	switch (c) {
 	case 'w':
-		return Tile(TileType::Wall);
+		return new Tile(TileType::Wall, p_x, p_y);
 	case ' ':
-		return Tile(TileType::Empty);
+		return new Tile(TileType::Empty, p_x, p_y);
 	case '.':
-		return Tile(TileType::Pellet);
+		return new Tile(TileType::Pellet, p_x, p_y);
 	case 'P':
-		return Tile(TileType::Powerup);
+		return new Tile(TileType::Powerup, p_x, p_y);
 	}
 
-	return Tile();
+	return new Tile();
 }
 
 void Level::DeletePowerUps()
@@ -56,6 +50,29 @@ void Level::DeletePowerUps()
 		}
 	}
 	m_powerUps.clear();
+}
+
+int Level::CorrectTeleportAxis(const int & p_a, const int & p_max) const
+{
+	int a = p_a;
+	if (a < 0)
+		a += p_max;
+	if (a >= p_max)
+		a -= p_max;
+
+	return a;
+}
+
+bool Level::IsBanned(const Vect2 & p_pos, const std::vector<Vect2>& p_banned) const
+{
+	Vect2 pos = p_pos.Round().CorrectTeleport();
+
+	for (auto b : p_banned) {
+		if (b == pos)
+			return true;
+	}
+
+	return false;
 }
 
 Level::Level(){
@@ -86,20 +103,18 @@ void Level::LoadLevel()
 	int y = 0;
 	for (auto str : raw_level) {
 		int x = 0;
-		std::vector<Tile> row;
+		std::vector<Tile*> row;
 		for (auto c : str) {
-			Tile tile = charToTile(c);
+			Tile* tile = charToTile(c, x, y);
 
-			if (tile.GetType() == TileType::Pellet)
+			if (tile->GetType() == TileType::Pellet)
 			{
 				m_pelletsCount++;
 			}
 
-			if (tile.GetType() == TileType::Powerup) {
-				tile = Tile(TileType::Empty);
-
+			if (tile->GetType() == TileType::Powerup) {
 				m_powerUps.push_back(
-					new PowerUp(Vect2(x * Config::TILE_SIZE, y * Config::TILE_SIZE + 24))
+					new PowerUp(Vect2((float)x * Config::TILE_SIZE, (float)y * Config::TILE_SIZE + 24))
 				);
 			}
 
@@ -122,11 +137,8 @@ void Level::DrawPellets(const int &p_x, const int &p_y)
 			int posx = p_x + (x * 8);
 			int posy = p_y + (y * 8);
 
-			if (t.GetType() == TileType::Pellet) {
+			if (t->GetType() == TileType::Pellet) {
 				m_drawManagerwPtr->Draw(m_pelletSprite, posx, posy);
-			}
-			if (t.GetType() == TileType::Powerup) {
-				m_drawManagerwPtr->Draw(m_powerupSprite, posx, posy);
 			}
 			x++;
 		}
@@ -134,36 +146,59 @@ void Level::DrawPellets(const int &p_x, const int &p_y)
 	}
 }
 
-Tile Level::GetTile(Vect2 p_vect2)
+Tile* Level::GetTile(Vect2 p_vect2)
 {
-	p_vect2.x = (float)floor(p_vect2.x);
-	p_vect2.y = (float)floor(p_vect2.y);
-
-	if (p_vect2.x < 0 || p_vect2.y < 0 ||
-		p_vect2.x >= WIDTH || p_vect2.y >= HEIGHT)
-	{
-		return Tile(TileType::Empty);
-	}
-
-	return m_tiles[(int)p_vect2.y][(int)p_vect2.x];
+	return GetTile(int(p_vect2.x), int(p_vect2.y));
 }
 
-void Level::ReplaceTile(Vect2 p_vect2, Tile p_tile)
+Tile* Level::GetTile(int p_x, int p_y)
 {
-	p_vect2 = p_vect2.Round();
+	int x = p_x;
+	int y = p_y;
 
-	int x = (int)p_vect2.x;
-	int y = (int)p_vect2.y;
+	if (x >= Config::LEVEL_WIDTH)
+		x -= Config::LEVEL_WIDTH;
+	if (x < 0)
+		x += Config::LEVEL_WIDTH;
 
-	Tile oldTile = m_tiles[y][x];
+	if (y >= Config::LEVEL_HEIGHT)
+		y -= Config::LEVEL_HEIGHT;
+	if (y < 0)
+		y += Config::LEVEL_HEIGHT;
+	return m_tiles[y][x];
+}
 
-	if (oldTile.GetType() == TileType::Pellet ||
-		oldTile.GetType() == TileType::Powerup)
+void Level::EatTile(Tile* p_tile)
+{
+	if (p_tile->GetType() == TileType::Pellet
+		//|| oldTile->GetType() == TileType::Powerup
+		)
 	{
 		m_pelletsCount--;
+
+		p_tile->ChangeType(Empty);
+	}
+}
+
+bool Level::PelletCollision(Player * p_player)
+{
+	Vect2 pos = p_player->GetPos()->Round().CorrectTeleport();
+
+	std::vector<Tile*> checkTiles;
+	checkTiles.push_back(GetTile(pos));
+	checkTiles.push_back(GetTile(pos + p_player->GetDirection()));
+
+	for (unsigned int i = 0; i < checkTiles.size(); i++) {
+		Tile* tile = checkTiles[i];
+
+		if (tile->GetType() == Pellet && CollisionManager::CheckCollision(p_player, checkTiles[i])) {
+
+			EatTile(tile);
+			return true;
+		}
 	}
 
-	m_tiles[y][x] = p_tile;
+	return false;
 }
 
 bool Level::PowerUpCollision(ICollideable * p_other)
@@ -188,7 +223,7 @@ bool Level::PowerUpCollision(ICollideable * p_other)
 	return collided;
 }
 
-std::vector<Vect2> Level::AvailableDirections(Vect2 p_pos)
+std::vector<Vect2> Level::AvailableDirections(const Vect2& p_pos)
 {
 	std::vector<Vect2> ret;
 	bool up = true;
@@ -199,28 +234,28 @@ std::vector<Vect2> Level::AvailableDirections(Vect2 p_pos)
 	Vect2 onTile = p_pos.Round();
 	Vect2 offset = p_pos.GetOffset();
 
-	if (GetTile(Vect2(onTile.x, onTile.y - 1)).collision()) {
+	if (GetTile(Vect2(onTile.x, onTile.y - 1))->collision()) {
 		if (offset.y > 0)
 			up = true;
 		else
 			up = false;
 	}
 
-	if (GetTile(Vect2(onTile.x, onTile.y + 1)).collision()) {
+	if (GetTile(Vect2(onTile.x, onTile.y + 1))->collision()) {
 		if (offset.y < 0)
 			down = true;
 		else
 			down = false;
 	}
 
-	if (GetTile(Vect2(onTile.x - 1, onTile.y)).collision()) {
+	if (GetTile(Vect2(onTile.x - 1, onTile.y))->collision()) {
 		if (offset.x > 0)
 			left = true;
 		else
 			left = false;
 	}
 
-	if (GetTile(Vect2(onTile.x + 1, onTile.y)).collision()) {
+	if (GetTile(Vect2(onTile.x + 1, onTile.y))->collision()) {
 		if (offset.x < 0)
 			right = true;
 		else
@@ -243,31 +278,92 @@ std::vector<Vect2> Level::AvailableDirections(Vect2 p_pos)
 	return ret;
 }
 
-bool Level::IsIntersection(Vect2 p_pos)
+std::vector<Vect2> Level::AvailableDirections(const int& p_x, const int& p_y)
 {
-	std::vector<Vect2> dirs = AvailableDirections(p_pos);
+	std::vector<Vect2> ret;
 
-	//intersection
-	if (dirs.size() > 2)
-		return true;
-
-	// corner
-	bool x = false;
-	bool y = false;
-	for (auto d : dirs) {
-		if (d.x != 0)
-			x = true;
-		if (d.y != 0)
-			y = true;
+	if (!GetTile(p_x, p_y - 1)->collision()) {
+		ret.push_back(Vect2::UP);
 	}
-	if (x && y)
-		return true;
+	if (!GetTile(p_x, p_y + 1)->collision()) {
+		ret.push_back(Vect2::DOWN);
+	}
+	if (!GetTile(p_x - 1, p_y)->collision()) {
+		ret.push_back(Vect2::LEFT);
+	}
+	if (!GetTile(p_x + 1, p_y)->collision()) {
+		ret.push_back(Vect2::RIGHT);
+	}
 
-	//corridor :(
-	return false;
+	return ret;
 }
 
-int Level::PelletsCount()
+int Level::NextIntersection(Vect2 & p_pos, const Vect2 & p_dir)
+{
+	Vect2 pos = p_pos.Round().CorrectTeleport();
+
+	if (p_dir == Vect2::ZERO) {
+		return -1;
+	}
+
+	int steps = 0;
+	while (!IsIntersection((int)pos.x, (int)pos.y)) {
+		pos += p_dir;
+		pos = pos.CorrectTeleport();
+		steps++;
+	}
+
+	p_pos = pos;
+
+	return steps;
+}
+
+int Level::NextIntersection(Vect2 & p_pos, const Vect2 & p_dir, const std::vector<Vect2>& p_banned)
+{
+	Vect2 pos = p_pos.Round().CorrectTeleport();
+
+	if (p_dir == Vect2::ZERO) {
+		return -1;
+	}
+
+	int steps = 0;
+	while (
+		!GetTile((int)pos.x, (int)pos.y)->collision() &&
+		!IsIntersection((int)pos.x, (int)pos.y) &&
+		!IsBanned(p_pos, p_banned))
+	{
+		pos += p_dir;
+		pos = pos.CorrectTeleport();
+		steps++;
+	}
+
+	p_pos = pos;
+	return steps;
+}
+
+bool Level::IsIntersection(int p_x, int p_y) const
+{
+	int x = CorrectTeleportAxis(p_x, Config::LEVEL_WIDTH);
+	int y = CorrectTeleportAxis(p_y, Config::LEVEL_HEIGHT);
+
+	bool diry = false;
+	bool dirx = false;
+
+	if (!m_tiles[CorrectTeleportAxis(y - 1, Config::LEVEL_HEIGHT)][x]->collision() ||
+		!m_tiles[CorrectTeleportAxis(y + 1, Config::LEVEL_HEIGHT)][x]->collision())
+	{
+		diry = true;
+	}
+	if (!m_tiles[y][CorrectTeleportAxis(x - 1, Config::LEVEL_WIDTH)]->collision() ||
+		!m_tiles[y][CorrectTeleportAxis(x + 1, Config::LEVEL_WIDTH)]->collision())
+	{
+		dirx = true;
+	}
+
+	return dirx && diry;
+}
+
+int Level::PelletsCount() const
 {
 	return m_pelletsCount + m_powerUps.size();
 }
@@ -289,6 +385,8 @@ void Level::Update(float p_delta)
 void Level::Draw()
 {
 	m_drawManagerwPtr->Draw(m_levelSpritewPtr, 0, 24);
+
+	DrawPellets(0, 24);
 
 	for (auto p : m_powerUps) {
 		p->Draw();

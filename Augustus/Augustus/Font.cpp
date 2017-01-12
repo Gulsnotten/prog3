@@ -67,7 +67,7 @@ void Font::DrawLeftAnchor(Vect2 p_pos, std::string p_string)
 void Font::Draw(Vect2 p_pos, std::string p_string, SDL_Color p_color)
 {
 	Vect2 pos = p_pos;
-	for (int x = 0; x < p_string.size(); x++) {
+	for (unsigned int x = 0; x < p_string.size(); x++) {
 		auto it = m_characters.find(p_string[x]);
 
 		if (it != m_characters.end()) {

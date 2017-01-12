@@ -79,7 +79,7 @@ bool Highscores::AddScore(Score * p_score)
 		return false;
 	}
 
-	for (int i = 0; i < m_scores.size(); i++) {
+	for (unsigned int i = 0; i < m_scores.size(); i++) {
 		if (p_score->m_score > m_scores[i]->m_score) { // add here
 
 			m_scores.insert(m_scores.begin() + i, p_score);

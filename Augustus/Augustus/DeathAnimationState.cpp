@@ -31,7 +31,6 @@ bool DeathAnimationState::Update(float p_delta)
 void DeathAnimationState::Draw()
 {
 	m_datawPtr->DrawLevel();
-	m_datawPtr->DrawPellets();
 	m_datawPtr->DrawHUD();
 	m_controller->Draw(m_datawPtr->m_player->GetScreenLocation());
 }

@@ -1,25 +1,47 @@
 TODO
 
 
-PLAY INTRO FROM PAC-MAN CARTOON ON NEW HIGHSCORE :D
+remove observer/subject
 
-	itermission
-		"I taste great btw"
-		"im not stinky, i'm PINKY! I smell great"
-		"It's this way blinky. ny way pinky" etc etc
-		"EWW this smells like sewage! what is this stuff?	....	sewage :)"
+remove _MSG consts in config
+
+remove outcommented code
 
 
-HUD <-- requirement
-	
-	score
 
-	extra lives
+BUG : 1 blue ghost move when pausing for the win
+	was blinking
+	moving
+take2
+	red ghost
+
+Rename PauseModule to Timer or something...
 
 
-Highscores
+
+Call Pellet / PowerUp collision in PlayingState instead of Player
+	Waka sound handled in PlayingState?
 
 
+Move IsWarning() from FleeingState to better explain the States purpose. maybe "FleeingRoamingMovement".
+	Maybe should make FleeingState NOT an IState? so it's not confusing why you don't switch to it.
+BUG?
+	AmbushState (and probably ChaseState) does not update target after Fleeing. This is because Enter() is not called since it never actually switches...
+	Make RoamingState into a weak pointer, and switch between PersonalityState and FleeingState ..?
+		SwitchRoamingState();
+
+
+Maybe do EntityPosition and ScreenPosition for conversions?
+EntityPosition : public Vect2 {
+	ScreenPosition ToScreenPosition();
+} // and vice versa
+
+	Collider
+		ScreenPosition* m_pos
+	GameObjectData
+		EntityPosition m_pos;
+	Tile(EntityPosition p_pos)
+		
 
 
 
