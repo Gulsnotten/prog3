@@ -22,7 +22,10 @@ void DrawManager::Initialize()
 		0);
 	assert(m_window != nullptr && "SDL_CreateWindow Failed");
 
-	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_VIDEO_OPENGL);
+	// frame rate was capping, so I changed the flag according to this page
+	// http://stackoverflow.com/questions/21949479/is-there-a-frame-rate-cap-built-into-sdl-2-0
+
+	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 	assert(m_renderer != nullptr && "SDL_CreateRenderer Failed");
 
 }

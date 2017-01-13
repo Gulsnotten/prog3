@@ -95,6 +95,7 @@ bool MovementModule::Update(float p_delta, Vect2 p_bufferedInput, float p_speed)
 		OnStep(p_bufferedInput);
 	}
 
+
 	// correct position gradually ( lenient! :^) )
 	if (m_direction != Vect2::ZERO) {
 		Vect2* pos = m_positionwPtr;
