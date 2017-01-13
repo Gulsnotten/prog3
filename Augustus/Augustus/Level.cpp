@@ -17,7 +17,7 @@
 #include <iostream>
 
 #include "PowerUp.h"
-#include "Config.h"
+ 
 
 #include "CollisionManager.h"
 #include "Player.h"

@@ -4,7 +4,7 @@
 #include "Level.h"
 #include "MovementModule.h"
 
-#include "Config.h"
+ 
 
 ExitState::ExitState(GameObjectData* p_data)
 	: IGhostState(p_data)

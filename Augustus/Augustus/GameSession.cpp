@@ -10,7 +10,7 @@
 #include "ScoreScreenState.h"
 #include "AttractScreenState.h"
 
-#include "Config.h"
+ 
 
 void GameSession::SwitchState(IGameState * p_state)
 {

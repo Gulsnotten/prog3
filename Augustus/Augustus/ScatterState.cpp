@@ -3,7 +3,7 @@
 
 #include "GameObjectData.h"
 #include "MovementModule.h"
-#include "Config.h"
+ 
 #include "PathFinderModule.h"
 
 ScatterState::ScatterState(GameObjectData * p_data, Vect2 p_target, Vect2* p_avoid)

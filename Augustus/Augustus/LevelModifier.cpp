@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "LevelModifier.h"
 
-#include "Config.h"
+ 
 
 LevelModifier::LevelModifier()
 {

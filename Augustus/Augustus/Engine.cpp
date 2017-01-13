@@ -111,6 +111,11 @@ void Engine::HandleEvents()
 		{
 			m_running = false;
 		}
+		else if (event.type == SDL_WINDOWEVENT) {
+			if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
+				m_drawManager->UpdateWindowSize();
+			}
+		}
 		else
 		{
 			m_inputManager->HandleEvent(event);
@@ -122,4 +127,9 @@ void Engine::CalculateDeltatime()
 {
 	m_delta = 0.001f * (SDL_GetTicks() - m_lastTick);
 	m_lastTick = SDL_GetTicks();
+
+	// SOME LAG OF SORTS!!! (example, unfocused window etc., pressed in the console...)
+	if (m_delta > 20 * 0.001f) {
+		m_delta = 0;
+	}
 }

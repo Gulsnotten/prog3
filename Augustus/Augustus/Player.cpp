@@ -16,7 +16,7 @@
 #include "SoundManager.h"
 #include "Level.h"
 
-#include "Config.h"
+ 
 #include "CollisionManager.h"
 #include "PowerUp.h"
 

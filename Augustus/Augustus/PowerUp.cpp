@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "PowerUp.h"
-#include "Config.h"
+ 
 
 #include "Animation.h"
 #include "ServiceLocator.h"

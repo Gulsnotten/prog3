@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "PathFinderModule.h"
 
-#include "Config.h"
+ 
 
 
 Vect2 AmbushState::GetNextTarget()

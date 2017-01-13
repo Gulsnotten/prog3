@@ -20,6 +20,9 @@ public:
 	void DebugDraw(SDL_Rect &p_rect);
 	void DebugDraw(SDL_Rect &p_rect, Uint8 p_r, Uint8 p_g, Uint8 p_b, Uint8 p_a);
 	SDL_Renderer* GetRenderer();
+	SDL_Rect GetDrawRect(Sprite * p_sprite, float p_x, float p_y);
+
+	void UpdateWindowSize();
 private:
 	void SaveDrawColor();
 	void LoadDrawColor();
@@ -30,6 +33,7 @@ private:
 	Uint8 m_b;
 	Uint8 m_a;
 
+	float m_scale;
 };
 
 

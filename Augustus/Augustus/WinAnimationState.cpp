@@ -6,7 +6,7 @@
 #include "SpriteManager.h"
 #include "PlayerAnimations.h"
 
-#include "Config.h"
+ 
 
 WinAnimationState::WinAnimationState(GameStateData * p_data)
 	: IGameState(p_data)

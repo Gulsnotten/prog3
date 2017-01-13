@@ -5,7 +5,7 @@
 #include "SoundManager.h"
 #include "DrawManager.h"
 #include "Font.h"
-#include "Config.h"
+ 
 #include "Level.h"
 
 StartAnimationState::StartAnimationState(GameStateData * p_data)

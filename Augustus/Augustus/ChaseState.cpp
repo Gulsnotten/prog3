@@ -4,7 +4,7 @@
 #include "PathFinderModule.h"
 #include "MovementModule.h"
 
-#include "Config.h"
+ 
 
 
 ChaseState::ChaseState(GameObjectData* p_data, Vect2* p_target)

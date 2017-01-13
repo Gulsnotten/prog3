@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Tile.h"
 
-#include "Config.h"
+ 
 
 Tile::Tile()
 {

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Fruit.h"
-#include "Config.h"
+ 
 
 #include "ServiceLocator.h"
 #include "FruitAnimations.h"

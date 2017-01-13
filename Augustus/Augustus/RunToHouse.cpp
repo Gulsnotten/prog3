@@ -5,7 +5,7 @@
 #include "PathFinderModule.h"
 #include "Level.h"
 
-#include "Config.h"
+ 
 
 const Vect2 RunToHouseState::FRONT_OF_HOUSE = Vect2(14, 11);
 

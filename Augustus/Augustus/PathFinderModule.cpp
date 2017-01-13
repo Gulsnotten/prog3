@@ -2,7 +2,7 @@
 #include "PathFinderModule.h"
 
 #include "Level.h"
-#include "Config.h"
+ 
 
 PathFinderModule::PathFinderModule(Level * p_level)
 	: m_levelwPtr(p_level)

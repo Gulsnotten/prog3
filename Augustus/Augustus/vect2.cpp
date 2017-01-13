@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "vect2.h"
 
-#include "Config.h"
+ 
 
 const Vect2 Vect2::ZERO = Vect2(0, 0);
 const Vect2 Vect2::UP = Vect2(0, -1);

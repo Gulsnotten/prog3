@@ -2,7 +2,7 @@
 #include "Highscores.h"
 
 #include "TextLoader.h"
-#include "Config.h"
+ 
 
 void Highscores::CreateEmptyScores()
 {

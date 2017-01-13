@@ -2,7 +2,7 @@
 #include "DrawManager.h"
 #include "Sprite.h"
 
-#include "Config.h"
+#include <iostream>
 
 // credit to Leo Jansson for the scaling in DrawManager::Draw(Sprite* p_sprite, int p_x, int p_y)
 
@@ -19,7 +19,7 @@ void DrawManager::Initialize()
 	m_window = SDL_CreateWindow("Augustus", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		Config::WINDOW_WIDTH * Config::WINDOW_SCALE,
 		Config::WINDOW_HEIGHT * Config::WINDOW_SCALE,
-		0);
+		SDL_WINDOW_RESIZABLE);
 	assert(m_window != nullptr && "SDL_CreateWindow Failed");
 
 	// frame rate was capping, so I changed the flag according to this page
@@ -28,6 +28,7 @@ void DrawManager::Initialize()
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 	assert(m_renderer != nullptr && "SDL_CreateRenderer Failed");
 
+	UpdateWindowSize();
 }
 
 void DrawManager::Shutdown()
@@ -55,26 +56,13 @@ void DrawManager::Present()
 
 void DrawManager::Draw(Sprite* p_sprite, int p_x, int p_y)
 {
-	// credit to Leo Jansson for the scaling
-	SDL_Rect dstRect = {
-		p_x * Config::WINDOW_SCALE,
-		p_y * Config::WINDOW_SCALE,
-		p_sprite->GetSource().w * Config::WINDOW_SCALE,
-		p_sprite->GetSource().h * Config::WINDOW_SCALE
-	};
-	SDL_RenderCopy(m_renderer, p_sprite->GetTexture(), &p_sprite->GetSource(), &dstRect);
+	SDL_RenderCopy(m_renderer, p_sprite->GetTexture(), &p_sprite->GetSource(), &GetDrawRect(p_sprite, (float)p_x, (float)p_y));
 }
 
 void DrawManager::Draw(Sprite * p_sprite, float p_x, float p_y)
 {
-	// credit to Leo Jansson for the scaling
-	SDL_Rect dstRect = {
-		int(p_x * Config::WINDOW_SCALE),
-		int(p_y * Config::WINDOW_SCALE),
-		p_sprite->GetSource().w * Config::WINDOW_SCALE,
-		p_sprite->GetSource().h * Config::WINDOW_SCALE
-	};
-	SDL_RenderCopy(m_renderer, p_sprite->GetTexture(), &p_sprite->GetSource(), &dstRect);
+	
+	SDL_RenderCopy(m_renderer, p_sprite->GetTexture(), &p_sprite->GetSource(), &GetDrawRect(p_sprite, p_x, p_y));
 }
 
 void DrawManager::Draw(Sprite * p_sprite, int p_x, int p_y, Uint8 p_r, Uint8 p_g, Uint8 p_b)
@@ -117,6 +105,54 @@ void DrawManager::DebugDraw(SDL_Rect & p_rect, Uint8 p_r, Uint8 p_g, Uint8 p_b, 
 SDL_Renderer * DrawManager::GetRenderer()
 {
 	return m_renderer;
+}
+
+SDL_Rect DrawManager::GetDrawRect(Sprite * p_sprite, float p_x, float p_y)
+{
+	SDL_Rect dstRect = {
+		(int)round(p_x * m_scale),
+		(int)round(p_y * m_scale),
+		(int)round(p_sprite->GetSource().w * m_scale),
+		(int)round(p_sprite->GetSource().h * m_scale)
+	};
+	return dstRect;
+}
+
+void DrawManager::UpdateWindowSize()
+{
+	// credit to Leo Jansson for the scaling,
+	// though at this point I'm not really using
+	// the WINDOW_SCALE variable when drawing
+
+	int w;
+	int h;
+	int x;
+	int y;
+	SDL_GetWindowSize(m_window, &w, &h);
+	SDL_GetWindowPosition(m_window, &x, &y);
+	int start_w = w;
+	int start_h = h;
+	float aspect = (float)Config::WINDOW_WIDTH / Config::WINDOW_HEIGHT;
+
+	if (w / (float)Config::WINDOW_WIDTH > h / (float)Config::WINDOW_HEIGHT) { // if window is wide
+		m_scale = (float)h / Config::WINDOW_HEIGHT;
+		w = int(h * aspect);
+	}
+	else {
+		m_scale = (float)w / Config::WINDOW_WIDTH;
+		h = int(w / aspect);
+	}
+
+	if (w != start_w) {
+		x += (start_w - w) / 2;
+	}
+	else {
+		y += (start_h - h) / 2;
+	}
+	SDL_SetWindowSize(m_window, w, h);
+	SDL_SetWindowPosition(m_window, x, y);
+
+	std::cout << "Changed window size\n";
 }
 
 void DrawManager::SaveDrawColor()

@@ -5,7 +5,7 @@
 #include "AnimationController.h"
 #include "Level.h"
 
-#include "Config.h"
+ 
 
 Vect2 GameObject::GetScreenLocation() const
 {

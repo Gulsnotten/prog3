@@ -2,7 +2,7 @@
 #include "FPS_Helper.h"
 
 #include <iostream>
-#include "Config.h"
+ 
 
 int FPS_Helper::GetDeltaFps(float p_delta)
 {

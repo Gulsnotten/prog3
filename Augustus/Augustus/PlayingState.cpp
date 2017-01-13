@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PlayingState.h"
 
-#include "Config.h"
+ 
 #include "GhostSoundPicker.h"
 #include "Level.h"
 

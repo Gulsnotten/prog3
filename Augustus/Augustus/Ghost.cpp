@@ -16,7 +16,7 @@
 #include "MovementModule.h"
 #include "PauseModule.h"
 
-#include "Config.h"
+ 
 
 void Ghost::SwitchState(IState * p_state)
 {
