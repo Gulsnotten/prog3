@@ -40,11 +40,12 @@ namespace Config {
 		LEVEL_WIDTH = 28,
 		LEVEL_HEIGHT = 31,
 		HOUSE_Y = 14,
-		HOUSE_EXIT_Y = 11,
-
-		ENERGIZER_STOP_AT = 5
+		HOUSE_EXIT_Y = 11
 		;
 	static const float
+		FRUIT_ACTIVE_TIME = 8.0f,
+		FRUIT_DESPAWN_TIME = 2.0f,
+		FRUIT_SPAWN_TIME = 12.0f,
 		PAUSE_TIME = 1.0f,
 		WIN_PAUSE_TIME = 1.0f,
 		WIN_ANIMATION_LENGTH = 2.0f,

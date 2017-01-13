@@ -1,37 +1,3 @@
-﻿  LevelModifier.cpp
-  Generating Code...
-  Compiling...
-  WinAnimationState.cpp
-  WaitingState.cpp
-  vect2.cpp
-  Tile.cpp
-  StartAnimationState.cpp
-  ScoreScreenState.cpp
-  ScatterState.cpp
-  RunToHouse.cpp
-  RoamAtRandom_State.cpp
-  PowerUp.cpp
-  PlayingState.cpp
-  GameSession.cpp
-  PlayerAnimations.cpp
-  Player.cpp
-  PathFinderModule.cpp
-  MovementModule.cpp
-  Level.cpp
-  Highscores.cpp
-  GhostAnimations.cpp
-  Ghost.cpp
-  Generating Code...
-  Compiling...
-  GameStateData.cpp
-  GameObject.cpp
-  FPS_Helper.cpp
-  FleeingBehavior.cpp
-  ExitState.cpp
-  DrawManager.cpp
-  ChaseState.cpp
-  AttractScreenState.cpp
-  AmbushState.cpp
-  Generating Code...
+﻿  GameStateData.cpp
   Augustus.vcxproj -> C:\Users\Erik Säll\Documents\GitHub\prog3\Augustus\Debug\Augustus.exe
   Augustus.vcxproj -> C:\Users\Erik Säll\Documents\GitHub\prog3\Augustus\Debug\Augustus.pdb (Full PDB)

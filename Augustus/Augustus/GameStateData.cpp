@@ -16,12 +16,14 @@
 #include "Font.h"
 #include "Highscores.h"
 #include "BlinkModule.h"
+#include "Fruit.h"
 
 void GameStateData::DeleteObjects()
 {
 	DeleteGhosts();
 	DeletePlayer();
 	DeleteLevel();
+	DeleteFruits();
 }
 
 void GameStateData::DeleteLevel()
@@ -47,6 +49,14 @@ void GameStateData::DeleteGhosts()
 		g = nullptr;
 	}
 	m_ghosts.clear();
+}
+
+void GameStateData::DeleteFruits()
+{
+	for (auto f : m_fruits) {
+		delete f;
+	}
+	m_fruits.clear();
 }
 
 void GameStateData::CreateObjects()
@@ -157,6 +167,7 @@ void GameStateData::Update(float p_delta)
 void GameStateData::DrawAll()
 {
 	DrawLevel();
+	DrawFruit();
 	DrawGhosts();
 	DrawPlayer();
 	DrawHUD();
@@ -210,18 +221,33 @@ void GameStateData::DrawHUD()
 	m_fontwPtr->DrawLeftAnchor(Vect2(float(17 * Config::TILE_SIZE), (float)Config::TILE_SIZE), highscore_string);
 }
 
+void GameStateData::DrawFruit()
+{
+	for (auto f : m_fruits) {
+		f->Draw();
+	}
+}
+
 void GameStateData::StartGame(int p_lives)
 {
+	m_spawnedFruit = false;
+	m_screen = 0;
 	m_score = 0;
 	m_1UP = true;
 	m_lives = p_lives;
 	NextScreen();
 }
 
+#include <iostream>
+
 void GameStateData::NextScreen()
 {
+	m_screen++;
+	m_spawnedFruit = false;
 	DeleteObjects();
 	CreateObjects();
+
+	std::cout << "Level : " << m_screen << "\n";
 }
 
 void GameStateData::Retry()
@@ -230,6 +256,7 @@ void GameStateData::Retry()
 
 	DeleteGhosts();
 	DeletePlayer();
+	DeleteFruits();
 
 	CreatePlayer();
 	CreateGhosts();
@@ -273,4 +300,9 @@ bool GameStateData::AddPoints(int p_points)
 int GameStateData::GetScore()
 {
 	return m_score;
+}
+
+int GameStateData::GetCurrentScreen()
+{
+	return m_screen;
 }

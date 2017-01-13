@@ -4,6 +4,7 @@
 class GameSession;
 class GhostAnimations;
 class PlayerAnimations;
+class FruitAnimations;
 class Font;
 class Highscores;
 
@@ -14,6 +15,7 @@ private:
 
 	GhostAnimations* m_ghostAnimations;
 	PlayerAnimations* m_playerAnimations;
+	FruitAnimations* m_fruitAnimations;
 	Font* m_font;
 	Highscores* m_scores;
 public:

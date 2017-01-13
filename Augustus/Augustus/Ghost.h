@@ -44,7 +44,8 @@ public:
 
 	void StartRoaming();
 	void StartWaiting(int p_wait);
-	void Flee();
+	void Flee(float p_time);
+	void FleeScatter();
 	void RunToHouse(Animation* p_animation);
 
 	bool IsFleeing();

@@ -11,6 +11,7 @@
 #include "SpriteManager.h"
 #include "SoundManager.h"
 #include "ServiceLocator.h"
+#include "Fruit.h"
 
 bool PlayingState::CheckGhostCollision()
 {
@@ -69,6 +70,38 @@ PlayingState::Food PlayingState::CheckFoodCollision()
 	return NothingFood;
 }
 
+void PlayingState::UpdateFruits(float p_delta)
+{
+	if (!m_datawPtr->m_spawnedFruit) {
+		if (m_fruitSpawnTime.IsPaused()) {
+			m_fruitSpawnTime.Update(p_delta);
+			if (!m_fruitSpawnTime.IsPaused()) {
+				m_datawPtr->m_spawnedFruit = true;
+				m_datawPtr->m_fruits.push_back(new Fruit(m_datawPtr->GetCurrentScreen() - 1));
+			}
+		}
+	}
+
+	for (auto f : m_datawPtr->m_fruits) {
+		f->Update(p_delta);
+	}
+
+	for (unsigned int i = 0; i < m_datawPtr->m_fruits.size(); i++) {
+		Fruit* f = m_datawPtr->m_fruits[i];
+		if (f->IsDead()) {
+
+			m_datawPtr->m_fruits.erase(m_datawPtr->m_fruits.begin() + i);
+			i--;
+		}
+		else if (CollisionManager::CheckCollision(f, m_datawPtr->m_player)) {
+			f->Eat();
+			m_datawPtr->AddPoints(f->GetScore());
+			m_pause.SetPause(Config::PAUSE_TIME);
+			m_fruitSoundwPtr->Play();
+		}
+	}
+}
+
 void PlayingState::Win()
 {
 	m_hasWon = true;
@@ -94,10 +127,21 @@ void PlayingState::AtePellet()
 
 void PlayingState::AtePowerup()
 {
-	m_combo = 0;
-	for (auto g : m_datawPtr->m_ghosts) {
-		g->Flee();
-		m_datawPtr->AddPoints(Config::POINT_POWER_UP);
+	m_datawPtr->AddPoints(Config::POINT_POWER_UP);
+
+	if (m_levelModifier.effect != LevelModifier::EnergizerEffect::IgnoreEffect) {
+		if (m_levelModifier.effect == LevelModifier::EnergizerEffect::FleeEffect) {
+			m_combo = 0;
+			for (auto g : m_datawPtr->m_ghosts) {
+				g->Flee(m_levelModifier.FleeingTime);
+
+			}
+		}
+		else {
+			for (auto g : m_datawPtr->m_ghosts) {
+				g->FleeScatter();
+			}
+		}
 	}
 
 	CheckIfWin();
@@ -141,6 +185,7 @@ PlayingState::PlayingState(GameStateData * p_data)
 	SoundManager* soundManager = ServiceLocator<SoundManager>::GetService();
 	m_eatGhostSoundwPtr = soundManager->CreateSound("../Assets/sound/eatghost.wav");
 	m_wakaSoundwPtr = soundManager->CreateSound("../Assets/sound/waka.wav");
+	m_fruitSoundwPtr = soundManager->CreateSound("../Assets/sound/eatfruit.wav");
 }
 
 PlayingState::~PlayingState()
@@ -158,12 +203,12 @@ PlayingState::~PlayingState()
 bool PlayingState::Update(float p_delta)
 {
 	if (!m_pause.Update(p_delta)) {
+		UpdateFruits(p_delta);
+
 		for (auto g : m_datawPtr->m_ghosts)
-			g->Update(p_delta);
+			g->Update(p_delta * m_levelModifier.GhostSpeed);
+		bool bumped = m_datawPtr->m_player->Update(p_delta * m_levelModifier.PacSpeed);
 
-
-		bool bumped = m_datawPtr->m_player->Update(p_delta);
-		Food food = CheckFoodCollision();
 		CheckGhostCollision();
 
 		if (m_datawPtr->m_player->IsDead()) {
@@ -173,6 +218,7 @@ bool PlayingState::Update(float p_delta)
 			m_ghostSound->PickSong();
 		}
 
+		Food food = CheckFoodCollision();
 		if (food == PowerUpFood || food == PelletFood) {
 			if (m_wakaSwitch == false) {
 				m_wakaSoundwPtr->Play();
@@ -203,13 +249,26 @@ bool PlayingState::Update(float p_delta)
 
 void PlayingState::Draw()
 {
-	m_datawPtr->DrawAll();
+	m_datawPtr->DrawLevel();
+	m_datawPtr->DrawHUD();
+	m_datawPtr->DrawFruit();
+	m_datawPtr->DrawGhosts();
+	if (m_pause.IsPaused()
+		&& !m_datawPtr->m_player->IsDead()
+		&& !m_hasWon) {
+		
+	}
+	else {
+		m_datawPtr->DrawPlayer();
+	}
 }
 
 void PlayingState::Enter()
 {
 	m_hasWon = false;
 	m_ghostSound = new GhostSoundPicker(m_datawPtr->m_ghosts);
+	m_levelModifier = LevelModifier::GetModifier(m_datawPtr->GetCurrentScreen());
+	m_fruitSpawnTime.SetPause(Config::FRUIT_SPAWN_TIME);
 }
 
 void PlayingState::Exit()

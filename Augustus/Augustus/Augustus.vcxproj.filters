@@ -324,6 +324,12 @@
     <ClInclude Include="LevelModifier.h">
       <Filter>Header Files\Pacman</Filter>
     </ClInclude>
+    <ClInclude Include="Fruit.h">
+      <Filter>Header Files\Pacman</Filter>
+    </ClInclude>
+    <ClInclude Include="FruitAnimations.h">
+      <Filter>Header Files\Pacman\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -528,6 +534,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LevelModifier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Fruit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FruitAnimations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,13 +2,15 @@
 
 struct LevelModifier
 {
+	enum EnergizerEffect { FleeEffect, ScatterEffect, IgnoreEffect };
+
 	float PacSpeed;
 	float GhostSpeed;
 	float FleeingTime;
-	bool IgnoreEnergizer;
+	EnergizerEffect effect;
 
 	LevelModifier();
-	LevelModifier(float p_pacSpeed, float p_ghostSpeed, float p_fleeingTime, bool p_ignoreEnergizer);
+	LevelModifier(float p_pacSpeed, float p_ghostSpeed, float p_fleeingTime, EnergizerEffect p_effect);
 
-	LevelModifier GetModifier(int p_level);
+	static LevelModifier GetModifier(int p_level);
 };

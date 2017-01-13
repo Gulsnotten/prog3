@@ -1,11 +1,12 @@
 TODO
 
 
-remove observer/subject
 
-remove _MSG consts in config
+fix pos change in win animation
 
-remove outcommented code
+
+
+title screen mumbo
 
 
 
@@ -18,17 +19,6 @@ take2
 Rename PauseModule to Timer or something...
 
 
-
-Call Pellet / PowerUp collision in PlayingState instead of Player
-	Waka sound handled in PlayingState?
-
-
-Move IsWarning() from FleeingState to better explain the States purpose. maybe "FleeingRoamingMovement".
-	Maybe should make FleeingState NOT an IState? so it's not confusing why you don't switch to it.
-BUG?
-	AmbushState (and probably ChaseState) does not update target after Fleeing. This is because Enter() is not called since it never actually switches...
-	Make RoamingState into a weak pointer, and switch between PersonalityState and FleeingState ..?
-		SwitchRoamingState();
 
 
 Maybe do EntityPosition and ScreenPosition for conversions?

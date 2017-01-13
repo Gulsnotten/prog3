@@ -9,6 +9,7 @@ struct GameObjectData;
 class Font;
 class Highscores;
 class BlinkModule;
+class Fruit;
 
 class GameStateData
 {
@@ -16,6 +17,7 @@ private:
 	int m_score;
 	int m_lives;
 	bool m_1UP;
+	int m_screen;
 	DrawManager* m_drawManagerwPtr;
 	SoundClip* m_1UPSoundwPtr;
 	Highscores* m_highscoreswPtr;
@@ -25,6 +27,7 @@ private:
 	void DeleteLevel();
 	void DeletePlayer();
 	void DeleteGhosts();
+	void DeleteFruits();
 
 	void CreateObjects();
 	void CreateLevel();
@@ -39,9 +42,11 @@ public:
 	~GameStateData();
 
 	std::vector<Ghost*> m_ghosts;
+	std::vector<Fruit*> m_fruits;
 	Player* m_player;
 	Level* m_level;
 	Font* m_fontwPtr;
+	bool m_spawnedFruit;
 
 	void Update(float p_delta);
 	void DrawAll();
@@ -49,6 +54,7 @@ public:
 	void DrawGhosts();
 	void DrawPlayer();
 	void DrawHUD();
+	void DrawFruit();
 
 	void StartGame(int p_lives);
 	void NextScreen();
@@ -61,4 +67,5 @@ public:
 	
 	bool AddPoints(int p_points);
 	int GetScore();
+	int GetCurrentScreen();
 };

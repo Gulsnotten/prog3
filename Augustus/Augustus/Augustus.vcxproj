@@ -187,6 +187,8 @@
     <ClInclude Include="FleeingBehavior.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPS_Helper.h" />
+    <ClInclude Include="Fruit.h" />
+    <ClInclude Include="FruitAnimations.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectData.h" />
     <ClInclude Include="GameStateData.h" />
@@ -259,6 +261,8 @@
     <ClCompile Include="FleeingBehavior.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPS_Helper.cpp" />
+    <ClCompile Include="Fruit.cpp" />
+    <ClCompile Include="FruitAnimations.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectData.cpp" />
     <ClCompile Include="GameStateData.cpp" />

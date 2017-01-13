@@ -206,10 +206,17 @@ void Ghost::StartWaiting(int p_wait)
 	m_waiting->Initialize(p_wait);
 }
 
-void Ghost::Flee()
+void Ghost::Flee(float p_time)
 {
-	m_fleeingTime->SetPause(Config::FLEEING_TIME + Config::WARNING_TIME);
+	m_fleeingTime->SetPause(p_time + Config::WARNING_TIME);
 	m_fleeingBehavior->Enter();
+}
+
+void Ghost::FleeScatter()
+{
+	if (m_currentStatewPtr == m_roaming) {
+		SwitchState(m_scatterState);
+	}
 }
 
 void Ghost::RunToHouse(Animation* p_animation)

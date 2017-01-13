@@ -7,6 +7,7 @@
 #include "ServiceLocator.h"
 #include "GhostAnimations.h"
 #include "PlayerAnimations.h"
+#include "FruitAnimations.h"
 #include "Font.h"
 #include "Highscores.h"
 
@@ -14,10 +15,12 @@ PacmanGame::PacmanGame()
 {
 	m_ghostAnimations = new GhostAnimations();
 	m_playerAnimations = new PlayerAnimations();
+	m_fruitAnimations = new FruitAnimations();
 	m_font = new Font();
 	m_scores = new Highscores();
 	ServiceLocator<GhostAnimations>::SetService(m_ghostAnimations);
 	ServiceLocator<PlayerAnimations>::SetService(m_playerAnimations);
+	ServiceLocator<FruitAnimations>::SetService(m_fruitAnimations);
 	ServiceLocator<Font>::SetService(m_font);
 	ServiceLocator<Highscores>::SetService(m_scores);
 
@@ -39,6 +42,12 @@ PacmanGame::~PacmanGame()
 
 	delete m_scores;
 	m_scores = nullptr;
+
+	delete m_fruitAnimations;
+	m_fruitAnimations = nullptr;
+
+	delete m_playerAnimations;
+	m_playerAnimations = nullptr;
 }
 
 void PacmanGame::Enter()

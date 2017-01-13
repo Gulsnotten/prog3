@@ -3,6 +3,7 @@
 #include <string>
 #include "PauseModule.h"
 #include <vector>
+#include "LevelModifier.h"
 
 class GhostSoundPicker;
 class Animation;
@@ -15,16 +16,20 @@ private:
 
 	GhostSoundPicker* m_ghostSound;
 	PauseModule m_pause;
+	PauseModule m_fruitSpawnTime;
 	std::vector<Animation*> m_scoreAnimations;
 	Animation* m_1UPAnimation;
 	SoundClip* m_eatGhostSoundwPtr;
 	SoundClip* m_wakaSoundwPtr;
+	SoundClip* m_fruitSoundwPtr;
 	int m_combo;
 	bool m_hasWon;
 	bool m_wakaSwitch;
+	LevelModifier m_levelModifier;
 
 	bool CheckGhostCollision();
 	Food CheckFoodCollision();
+	void UpdateFruits(float p_delta);
 	
 	void Win();
 	void Lose();
