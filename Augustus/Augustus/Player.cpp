@@ -20,26 +20,67 @@
 #include "CollisionManager.h"
 #include "PowerUp.h"
 
+Vect2 Player::GetAverageInput(const std::vector<Vect2>& p_inputs)
+{
+	Vect2 ret = Vect2::ZERO;
+
+	for (auto i : p_inputs) {
+		ret.x += i.x;
+		ret.y += i.y;
+	}
+
+	return ret;
+}
+
 void Player::UpdateInput()
 {
-	Vect2 dir = Vect2::ZERO;
-	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_W))
-		dir = Vect2::UP;
-	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_S))
-		dir = Vect2::DOWN;
-	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_A))
-		dir = Vect2::LEFT;
-	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_D))
-		dir = Vect2::RIGHT;
+	std::vector<Vect2> heldinputs;
+	std::vector<Vect2> pressedinputs;
 
-	if (dir != Vect2::ZERO)
-		m_inputBuffer = dir;
+	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_W) || m_inputwPtr->IsKeyDown(SDL_SCANCODE_UP))
+		heldinputs.push_back(Vect2::UP);
+	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_S) || m_inputwPtr->IsKeyDown(SDL_SCANCODE_DOWN))
+		heldinputs.push_back(Vect2::DOWN);
+	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_A) || m_inputwPtr->IsKeyDown(SDL_SCANCODE_LEFT))
+		heldinputs.push_back(Vect2::LEFT);
+	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_D) || m_inputwPtr->IsKeyDown(SDL_SCANCODE_RIGHT))
+		heldinputs.push_back(Vect2::RIGHT);
+
+	if (m_inputwPtr->IsKeyDownOnce(SDL_SCANCODE_W) || m_inputwPtr->IsKeyDownOnce(SDL_SCANCODE_UP))
+		pressedinputs.push_back(Vect2::UP);
+	if (m_inputwPtr->IsKeyDownOnce(SDL_SCANCODE_S) || m_inputwPtr->IsKeyDownOnce(SDL_SCANCODE_DOWN))
+		pressedinputs.push_back(Vect2::DOWN);
+	if (m_inputwPtr->IsKeyDownOnce(SDL_SCANCODE_A) || m_inputwPtr->IsKeyDownOnce(SDL_SCANCODE_LEFT))
+		pressedinputs.push_back(Vect2::LEFT);
+	if (m_inputwPtr->IsKeyDownOnce(SDL_SCANCODE_D) || m_inputwPtr->IsKeyDownOnce(SDL_SCANCODE_RIGHT))
+		pressedinputs.push_back(Vect2::RIGHT);
+
+	Vect2 held = GetAverageInput(heldinputs);
+	Vect2 pressed = GetAverageInput(pressedinputs);
+	Vect2 newDir = Vect2::ZERO;
+
+	if (held.x != 0 && held.y != 0) {
+		if (pressed.x != 0 && pressed.y != 0) {
+			newDir = pressed;
+			newDir.x = 0; // priority to y axis
+		}
+		else {
+			newDir = pressed;
+		}
+	}
+	else {
+		newDir = held;
+	}
+
+	if (newDir != Vect2::ZERO) {
+		m_currentInput = newDir;
+	}
 }
 
 
 Player::Player(GameObjectData * p_data)
 	: GameObject(p_data, Vect2(float(Config::TILE_SIZE), float(Config::TILE_SIZE))),
-	m_inputBuffer(Vect2::ZERO), m_isDead(false)
+	m_currentInput(Vect2::ZERO), m_isDead(false)
 {
 	m_data = p_data;
 
@@ -62,7 +103,7 @@ bool Player::Update(float p_delta)
 
 	UpdateInput();
 
-	bool bumped = m_data->m_movement->Update(p_delta, m_inputBuffer, float(Config::MOVEMENT_SPEED));
+	bool bumped = m_data->m_movement->Update(p_delta, m_currentInput, float(Config::MOVEMENT_SPEED));
 
 	Vect2 currentdir = m_data->m_movement->GetDirection();
 	Animation* next_animation = nullptr;
