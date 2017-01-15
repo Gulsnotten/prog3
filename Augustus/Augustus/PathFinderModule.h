@@ -35,6 +35,8 @@ public:
 	void UpdatePath(Vect2 p_target, Vect2 p_banned_position);
 	void UpdatePath(Vect2 p_target, std::vector<Vect2> p_banned_positions);
 	Vect2 GetNextDir(Vect2 p_pos);
+	Vect2 GetNextDir(Vect2 p_pos, Vect2 p_banned_dir);
+	Vect2 GetNextDir(Vect2 p_pos, std::vector<Vect2> p_banned_directions);
 
 	bool ReachedGoal(Vect2 p_pos);
 };

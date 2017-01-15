@@ -46,10 +46,14 @@ AmbushState::~AmbushState()
 bool AmbushState::Update(float p_delta)
 {
 	Vect2* pos = m_datawPtr->m_pos;
-
+	
 	Vect2 nextDir = Vect2::ZERO;
-	if (m_datawPtr->m_movement->SteppedOnTile())
-		nextDir = m_pathfinder->GetNextDir(*pos);
+	if (m_datawPtr->m_movement->SteppedOnTile()) {
+		Vect2 currentDir = m_datawPtr->m_movement->GetDirection();
+		Vect2 back = Vect2(-currentDir.x, -currentDir.y);
+
+		nextDir = m_pathfinder->GetNextDir(*pos, back);
+	}
 
 	m_datawPtr->m_movement->Update(p_delta, nextDir, float(Config::MOVEMENT_SPEED), false);
 

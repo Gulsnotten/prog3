@@ -1,0 +1,20 @@
+FSM
+{
+public:
+}
+
+
+
+Ghost
+{
+	IState* NextState();
+public:
+	Update(){
+		if (!fleeing){
+			FSM::Update();
+		}
+	}
+	UpperUpdate(){
+		// logic :D
+	}
+}

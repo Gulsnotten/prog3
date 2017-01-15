@@ -149,39 +149,24 @@ The GameController holds all the states in the game loop:
 The structure of this statemachine could be changed. The start/win/death states should be parts of PlayingState, because it is more on the same level. The PlayingState could be a state machine, which holds those states.
 
 	Things that could be refactored
-I did not use the StateManager, because most of my state machines did more in their Update() than just updating the state. The ghosts for example had logic outside its states, and they needed access to its states to check which one was active. My state machines were not re-usable because of this. This is the structure I would use if I refactored this some more:
+I did not use the StateManager, because most of my state machines did more in their Update() than just updating the state. The ghosts for example had logic outside its states, and they needed access to its states to check which one was active. My state machines were not re-usable because of this. If I refactored this I would make a base FSM class that provides virtual functions for logic outisde of states and switching state logic, so it can be re usable.
 
-class IFSMController
+like so:
+
+IFSM
 {
-	StateManager m_fsm;
-
-	virtual void SwitchState(IState* p_current);
+private:
+	IState* m_currentStatewPtr;
+	void SwitchState();
+protected:
+	virtual IState* NextState() = 0;
+	virtual void UpperUpdate() = 0;
 public:
 	void Update(){
-		if (!m_fsm.Update()){
-			SwitchState(m_fsm.GetCurrentState());
-		}
+		m_currentStatewPtr->Update();
+		UpperUpdate();
 	}
-};
+}
 
-class Ghost : public IFSMController,
-	public IGameObject // etc etc
-{
-	// store the states here so that we can check
-	// against current state in IFSMController::SwitchState()
-	IState* roaming;
-	IState* fleeing;
-	IState* scatter;
 
-	// compares against the current state and changes accordingly
-	void SwitchState(IState* p_current);
-public:
-	void Update(){
-		IFSMController::Update();
-
-		// other ghost logic
-	}
-	void Draw();
-};
-
-This way the state machines are way more generic, and I am a happy programmer again :^)
+This way the state machines are way more generic and reusable :^)

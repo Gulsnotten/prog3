@@ -10,7 +10,7 @@ class Fruit : public ICollideable, public IAnimationAble
 {
 	Vect2 m_pos;
 	float m_time;
-	int m_index;
+	unsigned int m_index;
 	bool m_isDead;
 	PauseModule m_pauseModule;
 	FruitAnimations* m_animationswPtr;

@@ -71,12 +71,38 @@ void PathFinderModule::UpdatePath(Vect2 p_target, std::vector<Vect2> p_banned_po
 
 Vect2 PathFinderModule::GetNextDir(Vect2 p_pos)
 {
+	return GetNextDir(p_pos, std::vector<Vect2>());
+}
+
+Vect2 PathFinderModule::GetNextDir(Vect2 p_pos, Vect2 p_banned_dir)
+{
+	return GetNextDir(p_pos, std::vector<Vect2>{p_banned_dir});
+}
+
+Vect2 PathFinderModule::GetNextDir(Vect2 p_pos, std::vector<Vect2> p_banned_directions)
+{
 	assert(m_heatMap.size() > 0); // call UpdatePath first!!
+
+	std::vector<Vect2> alldirs = m_levelwPtr->AvailableDirections(p_pos.Round());
+	std::vector<Vect2> dirs = alldirs;
+
+	for (auto banned : p_banned_directions) {
+		for (unsigned int i = 0; i < dirs.size(); i++) {
+			if (dirs[i] == banned) {
+				dirs.erase(dirs.begin() + i);
+				i--;
+			}
+		}
+	}
+
+	if (dirs.size() == 0) { // pls dont ban all directions
+		dirs = alldirs;
+	}
 
 	Vect2 ret = Vect2::ZERO;
 	int heat = 99999;
 
-	for (auto d : m_levelwPtr->AvailableDirections(p_pos.Round())) {
+	for (auto d : dirs) {
 		Vect2 pos = p_pos.Round() + d;
 		pos = pos.CorrectTeleport();
 
