@@ -15,11 +15,7 @@ title screen mumbo
 
 
 
-BUG : 1 blue ghost move when pausing for the win
-	was blinking
-	moving
-take2
-	red ghost
+
 
 Rename PauseModule to Timer or something...
 
@@ -67,27 +63,3 @@ polish:
 
 
 "../Assets/plopp.ogg"
-
-
-
-
-
-
-
-
-
-
-
-
-Game is PDA
-	TitleScreen
-		Playing :)
-			(highscore)
-
-
-Playing
-	start animation
-		default
-			win animation
-
-	doesn't need to be a state cus it's so simple?

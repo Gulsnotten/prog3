@@ -49,15 +49,7 @@ bool MovementModule::CheckLenient()
 	Vect2 pos = *m_positionwPtr;
 	Vect2 rounded = pos.Round();
 
-	if (
-		abs(pos.x - rounded.x) < 0.5f
-		&& abs(pos.y - rounded.y) < 0.5f
-		)
-	{
-		return m_levelwPtr->IsIntersection((int)rounded.x, (int)rounded.y);
-	}
-
-	return false;
+	return m_levelwPtr->IsIntersection((int)rounded.x, (int)rounded.y);
 }
 
 void MovementModule::CorrectOffset()
