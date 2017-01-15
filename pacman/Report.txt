@@ -1,0 +1,188 @@
+5SD804 Report Erik Säll
+
+
+CONTENTS
+	* Introduction
+	* Maze Collision Detection
+		* Intro
+		* Usage
+		* Implementation
+		* Alternatives
+	* Pathfinding
+		* Intro
+		* Usage
+		* Algorithm
+		* Implementation
+		* Alternatives
+	* Animation
+		* Usage
+		* Implementation
+		* Alternatives
+	* Ghost AI
+	* State Machines
+		* Intro
+		* Example
+		* Things that could be refactores
+
+
+INTRODUCTION
+
+I have been making a clone of Pacman (Midway, 1980). These were the features I planned to implement.
+	* pathfinding
+	* different ghost AI
+	* maze-specialized collision detection
+	* scores
+	* animation
+	* title screen
+	* start, win and death screens
+and if I had time over
+	* highscores
+	* increasing difficulty
+	* extra lives, fruit bonuses, 1UP at 10'000 pts etc
+
+
+MAZE COLLISION DETECTION
+	Intro
+All the Entities that moves in the maze can't move through walls, will always move in the direction they're heading and they can't stop in the middle of a corridor. To do this I made a class that controls the direction of the object and collision between the object and the maze.
+
+	Usage
+Classes that need to traverse the maze hold an object of MovementModule. To move in the maze, they call MovementModule::Update() with a direction and the speed at which it will move.
+
+	Implementation
+When creating an instance of MovementModule I send in a pointer to the Entitys position and a pointer to the maze (inconveniently named Level as of now). The movementmodule object sets its direction member to Vect(0,0) which is no specific direction.
+
+The collision and direction changing logic happens if MovementModule::Update(). We only want the direction to change when we reach an intersection (exception: if the paramameter direction is in the opposite direction we do it anyways. We always want to be able to turn around). The function checks if the position is at the center of a tile, then checks if any of the available directions are equal to the parameter direction. If the are, change direction. Initially when this happened the position was corrected so that if the new direction was along the y axis, the x position was rounded. This later changed to gradually correct the position, to smooth out the movement when pacman does a corner (change direction .5 tiles before or after reaching an intersection).
+
+For the collision, the function looks at the tile its currently standing on and the tile 1 step forward in our direction. If the tile is solid and we are within 1 unit we are colliding and the position is corrected.
+
+	Alternatives
+Instead of each Entity holding an object of MovementModule the game could have been using a single instance of the class. It could have been a static manager class, where you send in the Entity and the manager updates it. The Entities would need to inherit from a special class that holds direction and position, maybe called IMoveable or something. This is something I will change if I continue to refactor the code after this course has ended.
+
+The collision could use the CollisionManager instead of my own function, since the tiles are ICollideable's (because of the pellet collision). The reason this is not done is because the ghosts Collider is a point instead of a rectangle most of the time, since we want the collision between pacman and the ghosts to be lenient. If we used the CollisionManager here the Entities would have to have the width and height of a tile, always.
+
+
+PATHFINDING
+	Intro
+The ghosts need to be able to find their way to the ghost house when they die, and most of the ghosts move towards a special position in the maze. To do this we need pathfinding.
+
+	Usage
+Like with the MovementModule, the Entities using pathfinding holds an object of PathfinderModule. The interface provided by the PathfinderModule are these 3 functions: UpdatePath(), GetNextDir() and ReachedGoal(), which does pretty much what they sound like.
+
+	Algorithm
+To get this working I used the most simple pathfinding algorithm I know, Breadth-first search algorithm (example: 0:10 https://www.youtube.com/watch?v=X3x7BlLgS-4) because I just wanted to get it working. The starting node traverses through its neighbouring nodes until it has found the second node (or in my case, filled the entire maze). Each iteration of the traversal we increase an int, which I call heat, and assign the heat to the current node. The result is the nodes close to the starting node have a small heat, while the nodes far away have a large heat. To find the path from a node to the starting node (aka finish) it goes towards the neighbouring node which has the smallest heat. When the node's heat is 0, we have reached the goal.
+
+	Implementation
+I decided to hold the heat in a 2d vector, so GetNextDir() could access it.
+
+To calculate the path, my first thought was to use a recursive function. Each iteration of the function makes all the neighbouring nodes go through the same function. The recursive function would take the heat as a parameter and increment it when calling itself again.
+
+This turned out to be very slow, the function was called around 2500 times every update. I figured out that the reason was that the nodes were being traversed in the wrong priority. The neighboring nodes of the starting node should all have been gone through before starting on the neighbours neighbours.
+
+To fix this i changed it into a loop going through a vector of structs holding heat and position. The node at the front of the vector is checked each loop, and its neighbouring nodes are added to the back of the vector. At the end of each loop the front node is erased. This implementation made sure the nodes were being checked in the correct order, and the performance was much better.
+
+	Alternatives
+Initially I wanted the pathfinding "flooding" of the maze to fill everything, and store the heat values in a vector until UpdatePath() was called again. This was because I thought the ghosts could use the information about the nodes far away from the target if they wanted to flee, but this was not done because the ghosts would stay still when they found the node with largest heat. Storing the heat in the vector was for the same reason (if I didn't want to call UpdatePath() after they've moved in deviation of the path).
+
+Since I didn't use any method were they deviated from the path and used the old sample, the path could have been stored in a smaller vector of directions and the heat vector could have been thrown away. The flooding could have been stopped after reaching the second node.
+
+Another method of calculating the pathfinding that I tested was moving 1 intersection at a time instead of 1 tile, and storing the position and heat of the intersection in an unordered map (This is why Vect2 has a hash function, which is not used :^). I thought this would be faster, but it wasn't so I switched back to BFS. I think the reason was that my function of checking if a tile was an intersection is slow. A solution to this could be to calculate which tiles are intersections when loading the level.
+
+Of course other methods of pathfinding could be used, like the popular A*. I did not use it simply because I am not familiar with it and didn't think I had the time to research it.
+
+
+ANIMATION
+	Usage
+An Entity that uses animation derives from IAnimationable. IAnimationable holds a pointer to an AnimationController, which has to be Updated and Drawn by the derived Class of IAnimationable.
+
+	Implementation
+Animation has a vector of structs that holds the Sprite and int length (int milliseconds) of a frame in the animation. Animation::GetSprite() takes an int parameter p_time, and finds the corresponding Sprite in the vector. This is done by adding the length of each struct from front to back until its >= p_time. Animations are updated, drawn and switched in AnimationController.
+
+For Entities to access the same animations without creating duplicates, I hard coded most animations in classes (i.e. GhostAnimations) and put them on the service locator. Then any class that needs the animations can access them. I did this because it was the fasted and easiest solution I could come up with.
+
+	Alternatives
+Instead of using the service locator for every animation collection, I could have used the same structure as the SpriteManager::CreateAnimation() etc. which would still prevent duplicate animations. I didn't do this because if I did I would have to add XML support, or hard code the animations in each of the files that needed it.
+
+I could have implemented XML support, so animations could load from .xml-files instead of being hardcoded. This was not done because I just wanted to save time, but would have been a cleaner, more re-usable solution.
+
+
+
+GHOST AI
+
+The ghosts switches behaviors, and this is done through states. Here are it's states:
+	* Waiting
+		when a certain time has passed, it switches to exit state.
+	* Exit
+		slowly exits the house, then switches to scatter state
+	* Scatter
+		pathfinds to a specific corner of the maze. Each ghost has a different corner. When updating the path to its corner it treats the player as a wall, so it avoids the player. When it has reached its corner, it switches to roaming state.
+	* Roaming
+		Expanded upon below. When a ghost has entered roaming mode, it doesn't switch from it by itself. The method Ghost::RunToHouse() makes the ghost switch to RunToHouse state.
+	* RunToHouse
+		pathfinds to the house, then switches to exit state.
+
+Each ghosts roaming state is different. 
+	* Blinky (red ghost):
+		uses pathfinding to go towards pacman. Updates the path, goes to that location and repeats. It does not update the path every frame because it is heavy and also I found it to be more interesting this way.
+	* Pinky (pink ghost):
+		Pathfinds towards the intersection pacman is looking at. At first I had trouble with this pathfinding, because the resulting path was almost always exactly the same as Blinky's. The way I solved this was to treat pacmans location as a wall when Updating the path. This forced Pinky to take a route around pacman.
+	* Inky (blue ghost)
+		Is a state machine that switches between the other ghost's roaming behaviors. The state is switched at random each time the current state is done, which is:
+			* when the pathfinding states reaches their goal
+			* when the random roaming bumps into a wall
+				(after writing this I realized that it never bumps into a wall, so it never switches from this state. Must fix this bug!!)
+	* Clyde (orange) ghost)
+		Moves in a random direction (except the one he came from) each time he reaches an intersection.
+
+
+STATE MACHINES
+	Intro
+The major state machines used in this project are the GameController (inconveniently called GameSession as of now) and Ghosts. I use a pattern where the state machine owns a pointer to a data class/struct, which is also held by the States. This is because the states often need to use the same data, or functions connected to the data. I changed the IState::Update() to return a bool, which is used by the state machines to tell if it should switch state.
+
+	Example
+GameController
+The GameController holds all the states in the game loop:
+	* TitlescreenState		(inconveniently named AttractScreenState)
+	* ScoreScreenState
+	* PlayingState
+	* StartAnimationState	(should probably be renamed since it suggests that it is an Animation class)
+	* DeathAnimationState	(-||-)	
+	* WinAnimationState		(-||-)
+The structure of this statemachine could be changed. The start/win/death states should be parts of PlayingState, because it is more on the same level. The PlayingState could be a state machine, which holds those states.
+
+	Things that could be refactored
+I did not use the StateManager, because most of my state machines did more in their Update() than just updating the state. The ghosts for example had logic outside its states, and they needed access to its states to check which one was active. My state machines were not re-usable because of this. This is the structure I would use if I refactored this some more:
+
+class IFSMController
+{
+	StateManager m_fsm;
+
+	virtual void SwitchState(IState* p_current);
+public:
+	void Update(){
+		if (!m_fsm.Update()){
+			SwitchState(m_fsm.GetCurrentState());
+		}
+	}
+};
+
+class Ghost : public IFSMController,
+	public IGameObject // etc etc
+{
+	// store the states here so that we can check
+	// against current state in IFSMController::SwitchState()
+	IState* roaming;
+	IState* fleeing;
+	IState* scatter;
+
+	// compares against the current state and changes accordingly
+	void SwitchState(IState* p_current);
+public:
+	void Update(){
+		IFSMController::Update();
+
+		// other ghost logic
+	}
+	void Draw();
+};
+
+This way the state machines are way more generic, and I am a happy programmer again :^)
