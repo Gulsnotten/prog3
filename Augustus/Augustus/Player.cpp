@@ -23,13 +23,13 @@
 void Player::UpdateInput()
 {
 	Vect2 dir = Vect2::ZERO;
-	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_UP))
+	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_W))
 		dir = Vect2::UP;
-	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_DOWN))
+	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_S))
 		dir = Vect2::DOWN;
-	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_LEFT))
+	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_A))
 		dir = Vect2::LEFT;
-	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_RIGHT))
+	if (m_inputwPtr->IsKeyDown(SDL_SCANCODE_D))
 		dir = Vect2::RIGHT;
 
 	if (dir != Vect2::ZERO)

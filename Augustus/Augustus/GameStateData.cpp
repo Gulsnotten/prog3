@@ -219,6 +219,8 @@ void GameStateData::DrawHUD()
 		highscore_string = score_string;
 	}
 	m_fontwPtr->DrawLeftAnchor(Vect2(float(17 * Config::TILE_SIZE), (float)Config::TILE_SIZE), highscore_string);
+
+	m_fontwPtr->DrawLeftAnchor(Vect2(float(Config::WINDOW_WIDTH - Config::TILE_SIZE), (float)Config::TILE_SIZE), std::to_string(m_screen));
 }
 
 void GameStateData::DrawFruit()
@@ -231,7 +233,7 @@ void GameStateData::DrawFruit()
 void GameStateData::StartGame(int p_lives)
 {
 	m_spawnedFruit = false;
-	m_screen = 0;
+	m_screen = 7;
 	m_score = 0;
 	m_1UP = true;
 	m_lives = p_lives;
