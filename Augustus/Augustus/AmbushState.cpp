@@ -51,7 +51,7 @@ bool AmbushState::Update(float p_delta)
 	if (m_datawPtr->m_movement->SteppedOnTile())
 		nextDir = m_pathfinder->GetNextDir(*pos);
 
-	m_datawPtr->m_movement->Update(p_delta, nextDir, float(Config::MOVEMENT_SPEED));
+	m_datawPtr->m_movement->Update(p_delta, nextDir, float(Config::MOVEMENT_SPEED), false);
 
 	if (m_pathfinder->ReachedGoal(*m_datawPtr->m_pos)) {
 		UpdatePath();

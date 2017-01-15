@@ -1,3 +1,9 @@
-﻿  Player.cpp
+﻿  ScatterState.cpp
+  RunToHouse.cpp
+  RoamAtRandom_State.cpp
+  Player.cpp
+  ChaseState.cpp
+  AmbushState.cpp
+  Generating Code...
   Augustus.vcxproj -> C:\Users\Erik Säll\Documents\GitHub\prog3\Augustus\Debug\Augustus.exe
   Augustus.vcxproj -> C:\Users\Erik Säll\Documents\GitHub\prog3\Augustus\Debug\Augustus.pdb (Full PDB)

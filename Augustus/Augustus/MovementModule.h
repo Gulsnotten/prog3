@@ -11,7 +11,6 @@ private:
 	Level* m_levelwPtr;
 	Vect2 m_direction;
 
-	bool m_bumpedLastFrame;
 	bool m_steppedOnTile;
 
 	bool IsDirAvailable(Vect2 p_dir);
@@ -27,7 +26,7 @@ public:
 	~MovementModule();
 
 	void TurnAround();
-	bool Update(float p_delta, Vect2 p_bufferedInput, float p_speed);
+	bool Update(float p_delta, Vect2 p_bufferedInput, float p_speed, bool p_cornering);
 
 	std::vector<Vect2> AvailableDirections(Vect2 p_pos);
 	bool SteppedOnTile();

@@ -67,7 +67,7 @@ void MovementModule::CorrectOffset()
 
 MovementModule::MovementModule(Level * p_level, Vect2* p_pos)
 	: m_levelwPtr(p_level), m_positionwPtr(p_pos), m_direction(Vect2::ZERO),
-	m_steppedOnTile(false), m_bumpedLastFrame(false)
+	m_steppedOnTile(false)
 {
 }
 
@@ -87,11 +87,11 @@ void MovementModule::TurnAround()
 	m_direction.y *= -1;
 }
 
-bool MovementModule::Update(float p_delta, Vect2 p_bufferedInput, float p_speed) // returns true when bumping into wall
+bool MovementModule::Update(float p_delta, Vect2 p_bufferedInput, float p_speed, bool p_cornering) // returns true when bumping into wall
 {
 	bool bumped = false;
 
-	if (SteppedOnTile() || CheckLenient()) {
+	if (SteppedOnTile() || (CheckLenient() && p_cornering)) {
 		OnStep(p_bufferedInput);
 	}
 
@@ -159,9 +159,7 @@ bool MovementModule::Update(float p_delta, Vect2 p_bufferedInput, float p_speed)
 
 	CheckWarp();
 
-	bool ret = bumped && m_bumpedLastFrame;
-	m_bumpedLastFrame = bumped;
-	return ret;
+	return bumped;
 }
 
 Vect2 MovementModule::GetDirection()

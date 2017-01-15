@@ -27,7 +27,7 @@ bool ScatterState::Update(float p_delta)
 	if (m_datawPtr->m_movement->SteppedOnTile())
 		m_nextDir = m_pathfinder->GetNextDir(*pos);
 
-	m_datawPtr->m_movement->Update(p_delta, m_nextDir, (float)Config::MOVEMENT_SPEED);
+	m_datawPtr->m_movement->Update(p_delta, m_nextDir, (float)Config::MOVEMENT_SPEED, false);
 
 	if (m_pathfinder->ReachedGoal(*pos)) {
 		return false;

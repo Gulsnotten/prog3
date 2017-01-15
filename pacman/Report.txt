@@ -129,7 +129,6 @@ Each ghosts roaming state is different.
 		Is a state machine that switches between the other ghost's roaming behaviors. The state is switched at random each time the current state is done, which is:
 			* when the pathfinding states reaches their goal
 			* when the random roaming bumps into a wall
-				(after writing this I realized that it never bumps into a wall, so it never switches from this state. Must fix this bug!!)
 	* Clyde (orange) ghost)
 		Moves in a random direction (except the one he came from) each time he reaches an intersection.
 

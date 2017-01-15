@@ -1,6 +1,11 @@
 TODO
 
 
+implement FSM interface
+
+
+implement joystick support
+
 
 fix pos change in win animation
 

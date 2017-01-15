@@ -47,37 +47,35 @@ RoamAtRandom_State::~RoamAtRandom_State()
 
 bool RoamAtRandom_State::Update(float p_delta)
 {
-	bool bumped;
-
 	Vect2* pos = m_datawPtr->m_pos;
+	Vect2 dir;
 
 	if (m_datawPtr->m_movement->SteppedOnTile()) {
 		Vect2 back = m_datawPtr->m_movement->GetDirection();
 		back.x *= -1;
 		back.y *= -1;
 
-		Vect2 newDir = Vect2::ZERO;
 		bool contains = false;
 		while (!contains) {
-			newDir = GetRandomDir(back);
+			dir = GetRandomDir(back);
 			for (auto v : m_datawPtr->m_movement->AvailableDirections(pos->Round())) {
-				if (v == newDir)
+				if (v == dir) {
 					contains = true;
+				}
 			}
 		}
-
-		bumped = m_datawPtr->m_movement->Update(p_delta, newDir, 8);
 	}
 	else {
-		Vect2 dir = m_datawPtr->m_movement->GetDirection();
+		dir = m_datawPtr->m_movement->GetDirection();
 		if (dir == Vect2::ZERO) {
 			std::vector<Vect2> dirs = m_datawPtr->m_movement->AvailableDirections(*pos);
 			int r = rand() % dirs.size();
 
 			dir = dirs[r];
 		}
-		bumped = m_datawPtr->m_movement->Update(p_delta, dir, (float)Config::MOVEMENT_SPEED);
 	}
+
+	bool bumped = m_datawPtr->m_movement->Update(p_delta, dir, (float)Config::MOVEMENT_SPEED, false);
 
 	return !bumped;
 }

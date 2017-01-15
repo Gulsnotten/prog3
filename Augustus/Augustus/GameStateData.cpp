@@ -233,7 +233,7 @@ void GameStateData::DrawFruit()
 void GameStateData::StartGame(int p_lives)
 {
 	m_spawnedFruit = false;
-	m_screen = 7;
+	m_screen = 0;
 	m_score = 0;
 	m_1UP = true;
 	m_lives = p_lives;

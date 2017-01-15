@@ -74,7 +74,7 @@ bool RunToHouseState::Update(float p_delta)
 	}
 	else
 	{
-		m_datawPtr->m_movement->Update(p_delta, m_pathfinder->GetNextDir(*pos), speed);
+		m_datawPtr->m_movement->Update(p_delta, m_pathfinder->GetNextDir(*pos), speed, false);
 		m_dir = m_datawPtr->m_movement->GetDirection();
 	}
 

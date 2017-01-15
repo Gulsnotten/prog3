@@ -103,7 +103,7 @@ bool Player::Update(float p_delta)
 
 	UpdateInput();
 
-	bool bumped = m_data->m_movement->Update(p_delta, m_currentInput, float(Config::MOVEMENT_SPEED));
+	bool bumped = m_data->m_movement->Update(p_delta, m_currentInput, float(Config::MOVEMENT_SPEED), true);
 
 	Vect2 currentdir = m_data->m_movement->GetDirection();
 	Animation* next_animation = nullptr;
